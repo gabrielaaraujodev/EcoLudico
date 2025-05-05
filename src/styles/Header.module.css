@@ -1,0 +1,61 @@
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  height: 4.5rem;
+  padding: 1.5rem 2.5rem;
+
+  background-color: #e8f5e9;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logoTitulo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.titulo {
+  font-size: 20px;
+  font-weight: bold;
+  color: #4caf50;
+}
+
+.links {
+  list-style: none;
+  display: flex;
+  gap: 4rem;
+}
+
+.links li {
+  color: #71bc68;
+  cursor: pointer;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.btnSignIn {
+  background: transparent;
+  border: 1px solid #71bc68;
+  color: #4caf50;
+  padding: 0.5rem 1.2rem;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.btnRegister {
+  background-color: #71bc68;
+  color: #e3f2e1;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 20px;
+  cursor: pointer;
+}
