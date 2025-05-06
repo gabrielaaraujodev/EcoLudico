@@ -4,7 +4,7 @@ import worldImage from "../images/firstHomeImage.svg";
 
 import styles from "../styles/IdeaSection.module.css";
 
-function MainContent() {
+function IdeaSection() {
   return (
     <section className={styles.section}>
       <div className={styles.textContent}>
@@ -26,4 +26,4 @@ function MainContent() {
   );
 }
 
-export default MainContent;
+export default IdeaSection;

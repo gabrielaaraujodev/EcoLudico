@@ -1,0 +1,54 @@
+.section {
+  background-color: #e3f2e1;
+  color: #71bc68;
+  border-radius: 40px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 70rem;
+  padding: 4rem 0rem;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 40px;
+  color: #71bc68;
+}
+
+.divLinks {
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem;
+  background-color: #71bc68;
+  border-radius: 25px;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  color: black;
+  list-style: none;
+}
+
+.links li {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.links li img {
+  width: 30px;
+}
+
+.links p {
+  font-size: 25px;
+  color: #ffffff;
+}
+
+.googleMaps {
+  width: 600px;
+}
