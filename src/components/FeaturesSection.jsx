@@ -15,7 +15,11 @@ function FeaturesSection() {
           <h1>O que buscamos que seja feito ?</h1>
         </div>
         <div className={styles.features}>
-          <img src={collecting} alt="Materiais Recicláveis" />
+          <img
+            src={collecting}
+            alt="Materiais Recicláveis"
+            className={styles["animate-image-1"]} // Acesse a classe do módulo
+          />
           <h1>Doação e Coleta</h1>
           <p>
             Facilitamos a encontrar pontos de coleta para doadores que estão
@@ -25,7 +29,11 @@ function FeaturesSection() {
           </p>
         </div>
         <div className={styles.features}>
-          <img src={doll} alt="Boneco Reciclável" />
+          <img
+            src={doll}
+            alt="Boneco Reciclável"
+            className={styles["animate-image-2"]} // Acesse a classe do módulo
+          />
           <h1>Transformar</h1>
           <p>
             Ao reciclar lixo eletrônico, você nos ajuda a reduzir o impacto
@@ -34,7 +42,11 @@ function FeaturesSection() {
           </p>
         </div>
         <div className={styles.features}>
-          <img src={children} alt="Crianças Brincando" />
+          <img
+            src={children}
+            alt="Crianças Brincando"
+            className={styles["animate-image-3"]} // Acesse a classe do módulo
+          />
           <h1>Utilizar</h1>
           <p>
             Ao reciclar lixo eletrônico, você nos ajuda a reduzir o impacto

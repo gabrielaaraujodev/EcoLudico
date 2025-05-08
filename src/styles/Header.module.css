@@ -59,3 +59,121 @@
   border-radius: 20px;
   cursor: pointer;
 }
+
+/* Tablets */
+@media (max-width: 768px) {
+  .nav {
+    padding: 1rem 2rem;
+  }
+
+  .links {
+    gap: 1.5rem;
+  }
+
+  .titulo {
+    font-size: 1.1rem;
+  }
+
+  .buttons {
+    gap: 1rem;
+  }
+
+  .btnSignIn,
+  .btnRegister {
+    padding: 0.3rem 0.8rem;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav {
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logoTitulo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .menuIcon {
+    display: block;
+    font-size: 1.5rem;
+    color: #71bc68;
+    cursor: pointer;
+  }
+
+  .links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 4.5rem;
+    left: 0;
+    background-color: #e8f5e9;
+    width: 100%;
+    padding: 1rem;
+    align-items: flex-start;
+    gap: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    z-index: 10;
+  }
+
+  .linksOpen {
+    display: flex;
+  }
+
+  .buttonsContainer {
+    display: flex; /* Alinhar os botões horizontalmente */
+    gap: 1rem; /* Espaço entre os botões */
+    margin-top: 1rem; /* Espaço acima dos botões dentro do menu */
+  }
+
+  .btnSignIn,
+  .btnRegister {
+    padding: 0.5rem 1.2rem;
+    border-radius: 20px;
+    font-size: 1rem;
+  }
+
+  .btnSignIn {
+    background: transparent;
+    border: 1px solid #71bc68;
+    color: #4caf50;
+  }
+
+  .btnRegister {
+    background-color: #71bc68;
+    color: #e3f2e1;
+    border: none;
+  }
+}
+
+@media (min-width: 481px) {
+  .menuIcon {
+    display: none;
+  }
+
+  /* Precisamos mostrar os links e botões normalmente em telas maiores */
+  .links {
+    display: flex !important; /* Importante para sobrepor o display: none da media query menor */
+    flex-direction: row !important; /* Voltar para a disposição horizontal */
+    position: static !important; /* Remover o posicionamento absoluto */
+    background-color: transparent !important; /* Remover a cor de fundo do menu */
+    width: auto !important; /* Ajustar a largura automaticamente */
+    padding: 0 !important; /* Remover o padding do menu */
+    box-shadow: none !important; /* Remover a sombra */
+    border-radius: 0 !important; /* Remover as bordas arredondadas */
+    align-items: center !important; /* Alinhar os itens verticalmente */
+  }
+
+  .buttonsContainer {
+    display: flex !important; /* Mostrar os botões */
+    gap: 2rem !important; /* Espaço entre os botões na navegação principal */
+    margin-top: 0 !important; /* Remover a margem superior */
+  }
+}

@@ -14,7 +14,7 @@ function ServicesSection() {
         <h1 className={styles.title}>Serviços Oferecidos</h1>
         <p className={styles.subTitle}>
           Oferecemos uma solução dinâmica e prática para quem busca ter hábitos
-          consciêntes com facilitadores para encotrar locais de coleta de
+          conscêntes com facilitadores para encotrar locais de coleta de
           materiais recicláveis próximos a você para que possa entregá-los.
         </p>
 

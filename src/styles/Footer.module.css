@@ -1,0 +1,112 @@
+.container {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 3rem 2.5rem 2rem;
+}
+
+.logoTitulo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo {
+  width: 1.5rem;
+  height: 1.2rem;
+}
+
+.titulo {
+  font-size: 22px;
+  font-weight: bold;
+  color: #e3f2e1;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.list li {
+  font-weight: 500;
+  color: #e3f2e1;
+  list-style: none;
+}
+
+.list a {
+  text-decoration: none;
+}
+
+.contato {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.contato p {
+  color: #e3f2e1;
+  font-weight: 500;
+}
+
+@media (max-width: 600px) {
+  .container {
+    flex-direction: column; /* Empilha os elementos verticalmente */
+    align-items: center; /* Centraliza os elementos */
+    padding: 2rem; /* Reduz o padding geral */
+    text-align: center; /* Centraliza o texto dentro dos elementos */
+  }
+
+  .logoTitulo {
+    margin-bottom: 1.5rem; /* Adiciona espaço abaixo da logo e título */
+  }
+
+  .titulo {
+    font-size: 20px; /* Reduz o tamanho da fonte do título */
+  }
+
+  .logo {
+    width: 1.2rem; /* Reduz o tamanho da logo */
+    height: 1rem;
+  }
+
+  .list {
+    align-items: center; /* Centraliza os itens da lista */
+    margin-bottom: 1.5rem; /* Adiciona espaço abaixo da lista */
+  }
+
+  .list li {
+    font-size: 1rem; /* Reduz o tamanho da fonte dos links */
+  }
+
+  .contato {
+    align-items: center; /* Centraliza os itens de contato */
+  }
+
+  .contato p {
+    font-size: 1rem; /* Reduz o tamanho da fonte do contato */
+  }
+}
+
+/* Para telas um pouco maiores (tablets, até 768px), podemos ajustar o padding e o espaçamento */
+@media (min-width: 601px) and (max-width: 768px) {
+  .container {
+    padding: 2.5rem 1.5rem;
+    justify-content: space-around; /* Distribui os elementos com um pouco mais espaço */
+  }
+
+  .titulo {
+    font-size: 21px;
+  }
+
+  .list {
+    gap: 0.8rem;
+  }
+
+  .list li {
+    font-size: 1.05rem;
+  }
+
+  .contato p {
+    font-size: 1.05rem;
+  }
+}

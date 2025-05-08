@@ -7,6 +7,7 @@ import IdeaSection from "./components/IdeaSection";
 import FeaturesSection from "./components/FeaturesSection";
 import RewardsSection from "./components/RewardsSection";
 import ProcedureSection from "./components/ProcedureSection";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <FeaturesSection />
       <RewardsSection />
       <ProcedureSection />
+      <Footer />
     </div>
   );
 }

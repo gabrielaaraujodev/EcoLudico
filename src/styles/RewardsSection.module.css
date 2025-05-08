@@ -1,11 +1,9 @@
 .container {
   display: flex;
   justify-content: space-between;
-
   width: 75rem;
   padding: 4rem 0rem;
   margin: 0 auto;
-
   color: #ffffff;
 }
 
@@ -13,7 +11,6 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-
   width: 16rem;
 }
 
@@ -35,6 +32,8 @@
 
 .features img {
   border-radius: 25px;
+  opacity: 0; /* Inicialmente invisível */
+  transform: translateY(20px); /* Inicialmente um pouco abaixo */
 }
 
 .features h1 {
@@ -44,4 +43,61 @@
 
 .features p {
   font-size: 14px;
+}
+
+/* Se você ainda não tem a definição da animação, adicione-a aqui */
+@keyframes fadeInSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Aplicando a animação com diferentes atrasos para cada imagem */
+.animate-image-1 {
+  animation: fadeInSlideUp 0.5s ease-out 0.3s forwards;
+}
+
+.animate-image-2 {
+  animation: fadeInSlideUp 0.5s ease-out 0.6s forwards;
+}
+
+.animate-image-3 {
+  animation: fadeInSlideUp 0.5s ease-out 0.9s forwards;
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 90%;
+    padding: 2rem 1rem;
+  }
+
+  .title {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .features {
+    width: calc(50% - 1rem);
+    margin-bottom: 2rem;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .features {
+    width: 100%;
+  }
+
+  .title h1 {
+    font-size: 24px; /* Reduzindo um pouco a fonte do título em telas menores */
+  }
 }

@@ -16,7 +16,11 @@ function RewardsSection() {
           </h1>
         </div>
         <div className={styles.features}>
-          <img src={recycleTrash} alt="Materiais Recicláveis" />
+          <img
+            src={recycleTrash}
+            alt="Materiais Recicláveis"
+            className={styles["animate-image-1"]} // Acesse a classe do módulo
+          />
           <h1>Retirar materiais inutilizados de casa.</h1>
           <p>
             Limpe sua casa de materiais recicláveis que não está utilizando sem
@@ -24,7 +28,11 @@ function RewardsSection() {
           </p>
         </div>
         <div className={styles.features}>
-          <img src={nature} alt="Boneco Reciclável" />
+          <img
+            src={nature}
+            alt="Ajude a natureza"
+            className={styles["animate-image-2"]} // Acesse a classe do módulo
+          />
           <h1>Ajude a natureza</h1>
           <p>
             Destinando os materiais aos locais corretos, você está ajudando a
@@ -32,7 +40,11 @@ function RewardsSection() {
           </p>
         </div>
         <div className={styles.features}>
-          <img src={world} alt="Crianças Brincando" />
+          <img
+            src={world}
+            alt="Salve o mundo"
+            className={styles["animate-image-3"]} // Acesse a classe do módulo
+          />
           <h1>Salve o mundo</h1>
           <p>
             Ao reciclar qualquer tipo de material, você ajuda a reduzir o

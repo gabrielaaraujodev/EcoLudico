@@ -14,6 +14,11 @@
 
 .textContent {
   width: 39rem;
+  transition: transform 0.2s ease-in-out;
+}
+
+.textContent:hover {
+  transform: translateY(-5px);
 }
 
 .textContent h1 {
@@ -34,8 +39,76 @@
   color: white;
 }
 
+.imageContent {
+  transition: transform 0.2s ease-in-out;
+}
+
+.imageContent:hover {
+  transform: translateY(-5px);
+}
+
 .imageContent img {
   width: 100%;
   max-width: 400px;
   border-radius: 20px;
+}
+
+/* Estilos para telas menores (até 768px) */
+@media (max-width: 768px) {
+  .section {
+    flex-direction: column; /* Empilha o texto e a imagem verticalmente */
+    padding: 2rem; /* Reduzindo o padding geral da seção */
+    gap: 2rem; /* Reduzindo o gap entre o texto e a imagem */
+    width: 100%; /* A seção ocupa a largura total da tela */
+  }
+
+  .textContent {
+    width: 100%; /* O texto ocupa a largura total disponível */
+    text-align: center; /* Centralizando o texto para melhor leitura em telas menores */
+  }
+
+  .textContent h1 {
+    font-size: 2.5rem; /* Reduzindo um pouco a fonte do título */
+    margin-bottom: 0.8rem;
+  }
+
+  .textContent h3 {
+    font-size: 1.2rem; /* Reduzindo um pouco a fonte do subtítulo */
+    margin-bottom: 0.8rem;
+  }
+
+  .textContent p {
+    font-size: 0.9rem; /* Reduzindo um pouco a fonte do parágrafo */
+    margin-bottom: 1.5rem;
+  }
+
+  .imageContent {
+    width: 100%; /* A imagem ocupa a largura total disponível */
+    display: flex;
+    justify-content: center; /* Centralizando a imagem */
+  }
+
+  .imageContent img {
+    max-width: 80%; /* Reduzindo o tamanho máximo da imagem para caber em telas menores */
+    border-radius: 15px; /* Ajustando o border-radius */
+  }
+}
+
+/* Estilos para telas ainda menores (até 480px) - Opcional, podemos refinar mais tarde */
+@media (max-width: 480px) {
+  .textContent h1 {
+    font-size: 2rem; /* Reduzindo ainda mais a fonte do título em telas menores */
+  }
+
+  .textContent h3 {
+    font-size: 1rem; /* Reduzindo ainda mais a fonte do subtítulo */
+  }
+
+  .textContent p {
+    font-size: 0.85rem; /* Reduzindo ainda mais a fonte do parágrafo */
+  }
+
+  .imageContent img {
+    max-width: 95%; /* Aumentando um pouco a largura da imagem em telas muito pequenas */
+  }
 }

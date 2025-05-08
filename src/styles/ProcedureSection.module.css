@@ -3,6 +3,8 @@
   color: #71bc68;
   border-radius: 40px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  padding: 2rem 0rem;
 }
 
 .container {
@@ -10,7 +12,7 @@
   flex-direction: column;
   gap: 1rem;
   width: 70rem;
-  padding: 4rem 0rem;
+  padding-bottom: 2rem;
   margin: 0 auto;
 }
 
@@ -51,4 +53,48 @@
 
 .googleMaps {
   width: 600px;
+}
+
+@media (max-width: 768px) {
+  .container {
+    width: 90%; /* Aumentando a largura do container em telas menores */
+    padding-bottom: 1rem; /* Reduzindo um pouco o padding inferior */
+  }
+
+  .title {
+    font-size: 30px; /* Reduzindo o tamanho do título */
+    text-align: center; /* Centralizando o título */
+  }
+
+  .divLinks {
+    flex-direction: column; /* Empilhando os links e o mapa */
+    align-items: center; /* Centralizando os itens na coluna */
+    padding: 1rem; /* Reduzindo o padding interno */
+  }
+
+  .links {
+    width: 100%; /* Os links ocupam a largura total */
+    flex-direction: row; /* Voltando para a linha */
+    justify-content: space-around; /* Distribuindo os itens horizontalmente */
+    margin-bottom: 1rem; /* Adicionando espaço abaixo dos links */
+  }
+
+  .links li {
+    flex-direction: column; /* Empilhando imagem e texto em cada item */
+    align-items: center; /* Centralizando imagem e texto */
+    text-align: center; /* Centralizando o texto */
+  }
+  .links li img {
+    width: 40px; /* Aumentando um pouco o tamanho da imagem */
+    margin-bottom: 0.5rem; /* Adicionando espaço abaixo da imagem */
+  }
+
+  .links p {
+    font-size: 1.2rem; /* Reduzindo o tamanho da fonte do texto */
+  }
+
+  .googleMaps {
+    width: 100%; /* O mapa ocupa a largura total */
+    max-width: 400px; /* Limitando a largura máxima do mapa */
+  }
 }
