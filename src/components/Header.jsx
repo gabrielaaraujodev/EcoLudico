@@ -1,10 +1,21 @@
-import React, { useState } from "react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import logo from "../images/logo.svg";
 import styles from "../styles/Header.module.css";
 import { FiMenu } from "react-icons/fi";
 
 function Header() {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = React.useState(false);
+
+  const navigate = useNavigate();
+
+  const goToSignIn = () => {
+    navigate("/signin");
+  };
+
+  const goToSignUp = () => {
+    navigate("/signup");
+  };
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -26,9 +37,12 @@ function Header() {
           <li>Contato</li>
           <li className={styles.buttonsContainer}>
             {" "}
-            {/* Novo container para os botões */}
-            <button className={styles.btnSignIn}>SIGN IN</button>
-            <button className={styles.btnRegister}>REGISTER</button>
+            <button className={styles.btnSignIn} onClick={goToSignIn}>
+              SIGN IN
+            </button>
+            <button className={styles.btnRegister} onClick={goToSignUp}>
+              REGISTER
+            </button>
           </li>
         </ul>
       </nav>

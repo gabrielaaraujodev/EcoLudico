@@ -1,0 +1,109 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+
+  width: 100vw;
+  height: 100vh;
+
+  background-image: url("../images/backgrounLogin.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.formContainer {
+  background-color: #fff;
+  padding: 20px 20px 10px 20px;
+  border-radius: 8px;
+  width: 500px;
+  max-width: 95%;
+}
+
+.formContainer h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #2e7d32;
+}
+
+.errorMessage {
+  color: red;
+  margin-bottom: 10px;
+  text-align: center;
+  white-space: pre-line;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.inputGroup label {
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
+}
+
+.inputGroup select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.formContainer h3 {
+  margin-top: 20px;
+  color: #2e7d32;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+}
+
+.nextButton,
+.prevButton,
+.registerButton {
+  background-color: #2e7d32;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+  margin-top: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.nextButton:hover,
+.prevButton:hover,
+.registerButton:hover {
+  background-color: #1b5e20;
+}
+
+.prevButton {
+  background-color: #6c757d;
+  margin-right: 10px;
+}
+
+.prevButton:hover {
+  background-color: #545b62;
+}
+
+.formContainer > form > div:last-child {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.formContainer > form > div:last-child > button {
+  margin-left: 10px;
+  margin-right: 0;
+}
+
+.formContainer > form > .nextButton {
+  margin-top: 20px;
+}
