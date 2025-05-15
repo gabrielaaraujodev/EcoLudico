@@ -10,16 +10,6 @@ import Leaftlet from "leaflet";
 import "leaflet-control-geocoder";
 import "leaflet-control-geocoder/dist/Control.Geocoder.css";
 
-// import icon from "leaflet/dist/images/marker-icon.png";
-// import iconShadow from "leaflet/dist/images/marker-shadow.png";
-
-// let DefaultIcon = L.icon({
-//   iconUrl: icon,
-//   shadowUrl: iconShadow,
-// });
-
-// L.Marker.prototype.options.icon = DefaultIcon;
-
 const personalFieldsConfig = [
   { label: "Nome", name: "name", type: "text", required: true },
   { label: "E-mail", name: "email", type: "email", required: true },
@@ -77,6 +67,8 @@ const schoolFieldsConfig = [
     type: "text",
     required: true,
   },
+  { label: "Latitude", name: "schoolLatitude", type: "text" },
+  { label: "Longitude", name: "schoolLongitude", type: "text" },
   { label: "Contato Responsável", name: "schoolContact", type: "text" },
   {
     label: "Horário de Funcionamento",
@@ -92,23 +84,27 @@ const initialValues = {
   password: "",
   confirmPassword: "",
   dateBirth: "",
-  addressStreet: "",
-  addressNumber: "",
-  addressComplement: "",
-  addressCity: "",
-  addressState: "",
-  latitude: "",
-  longitude: "",
-  schoolName: "",
-  schoolAddressStreet: "",
-  schoolAddressNumber: "",
-  schoolAddressComplement: "",
-  schoolAddressCity: "",
-  schoolAddressState: "",
-  schoolLatitude: "",
-  schoolLongitude: "",
-  schoolContact: "",
-  schoolOperatingHours: "",
+  address: {
+    addressStreet: "",
+    addressNumber: "",
+    addressComplement: "",
+    addressCity: "",
+    addressState: "",
+    latitude: "",
+    longitude: "",
+  },
+  school: {
+    schoolName: "",
+    schoolAddressStreet: "",
+    schoolAddressNumber: "",
+    schoolAddressComplement: "",
+    schoolAddressCity: "",
+    schoolAddressState: "",
+    schoolLatitude: "",
+    schoolLongitude: "",
+    schoolContact: "",
+    schoolOperatingHours: "",
+  },
 };
 
 function SignUpPage() {
@@ -145,7 +141,6 @@ function SignUpPage() {
           placeholder: "Digite o endereço",
         })
           .on("markgeocode", (e) => {
-            // console.log("Dados do geocode:", e.geocode);
             const latlng = e.geocode.center;
             const addressParts = e.geocode.name.split(",");
             const city =
@@ -156,11 +151,14 @@ function SignUpPage() {
             const state = e.geocode.properties?.address?.state || "";
             setValues((prevValues) => ({
               ...prevValues,
-              addressStreet: addressParts[0]?.trim() || "",
-              addressCity: city?.trim() || "",
-              addressState: state?.trim() || "",
-              latitude: latlng.lat,
-              longitude: latlng.lng,
+              address: {
+                ...prevValues.address,
+                addressStreet: addressParts[0]?.trim() || "",
+                addressCity: city?.trim() || "",
+                addressState: state?.trim() || "",
+                latitude: latlng.lat, // Atualiza diretamente no objeto address
+                longitude: latlng.lng, // Atualiza diretamente no objeto address
+              },
             }));
             map.setView(latlng, 16);
             Leaftlet.marker(latlng).addTo(map);
@@ -179,6 +177,7 @@ function SignUpPage() {
       }
     }
 
+    // Lógica similar para a escola (page === 3)
     if (page === 3 && values.type === "1") {
       const mapContainer = Leaftlet.DomUtil.get("school-address-map");
       if (mapContainer && !schoolMapRef.current) {
@@ -199,7 +198,6 @@ function SignUpPage() {
           placeholder: "Digite o endereço da escola",
         })
           .on("markgeocode", (e) => {
-            // console.log("Dados do geocode (escola):", e.geocode);
             const latlng = e.geocode.center;
             const addressParts = e.geocode.name.split(",");
             const city =
@@ -210,11 +208,14 @@ function SignUpPage() {
             const state = e.geocode.properties?.address?.state || "";
             setValues((prevValues) => ({
               ...prevValues,
-              schoolAddressStreet: addressParts[0]?.trim() || "",
-              schoolAddressCity: city?.trim() || "",
-              schoolAddressState: state?.trim() || "",
-              schoolLatitude: latlng.lat,
-              schoolLongitude: latlng.lng,
+              school: {
+                ...prevValues.school,
+                schoolAddressStreet: addressParts[0]?.trim() || "",
+                schoolAddressCity: city?.trim() || "",
+                schoolAddressState: state?.trim() || "",
+                latitude: latlng.lat, // Atualiza diretamente no objeto school
+                longitude: latlng.lng, // Atualiza diretamente no objeto school
+              },
             }));
             map.setView(latlng, 16);
             Leaftlet.marker(latlng).addTo(map);
@@ -251,23 +252,57 @@ function SignUpPage() {
       return;
     }
 
-    const userData = { ...values, type: parseInt(values.type) };
+    const userData = {
+      Type: parseInt(values.type),
+      Name: values.name,
+      Email: values.email,
+      Password: values.password,
+      DateBirth: values.dateBirth,
+      Address: {
+        // Corrigindo o case para corresponder ao AddressDTO
+        Street: values.address.addressStreet,
+        Number: values.address.addressNumber,
+        Complement: values.address.addressComplement,
+        City: values.address.addressCity,
+        State: values.address.addressState,
+        Latitude: String(values.address.latitude),
+        Longitude: String(values.address.longitude),
+      },
+      School:
+        values.type === "1"
+          ? {
+              Name: values.school.schoolName,
+              Address: {
+                // Caso a SchoolCreateDTO.Address também tenha case diferente
+                Street: values.school.schoolAddressStreet,
+                Number: values.school.schoolAddressNumber,
+                Complement: values.school.schoolAddressComplement,
+                City: values.school.schoolAddressCity,
+                State: values.school.schoolAddressState,
+                Latitude: String(values.school.latitude),
+                Longitude: String(values.school.longitude),
+              },
+              Contact: values.school.schoolContact,
+              OperatingHours: values.school.schoolOperatingHours,
+            }
+          : null,
+    };
 
     try {
-      const response = await fetch("/api/User/register", {
+      const response = await fetch("https://localhost:7253/api/User/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userData),
       });
 
       if (response.ok) {
-        // const responseData = await response.json();
-        // console.log("Registro bem-sucedido!", responseData);
         navigate("/signin");
       } else {
         const errorData = await response.json();
         setError(
-          errorData?.error || `Erro no registro: ${response.statusText}`
+          errorData?.errors?.[""]?.[0] ||
+            errorData?.title ||
+            `Erro no registro: ${response.statusText}`
         );
       }
     } catch (error) {
@@ -329,7 +364,8 @@ function SignUpPage() {
                 <InputText
                   key={field.name}
                   {...field}
-                  value={values[field.name]}
+                  name={`address.${field.name}`} // <---- MODIFICAÇÃO AQUI
+                  value={values.address[field.name]}
                   onChange={handleChange}
                 />
               ))}
@@ -363,7 +399,8 @@ function SignUpPage() {
                 <InputText
                   key={field.name}
                   {...field}
-                  value={values[field.name]}
+                  name={`school.${field.name}`} // <---- MODIFICAÇÃO AQUI
+                  value={values.school[field.name]}
                   onChange={handleChange}
                 />
               ))}

@@ -8,6 +8,7 @@ import ProcedureSection from "./components/ProcedureSection";
 import Footer from "./components/Footer";
 import SignInPage from "./components/SignInPage";
 import SignUpPage from "./components/SignUpPage";
+import Profile from "./components/Profile";
 
 import "./styles/app.css";
 
@@ -30,6 +31,7 @@ function App() {
         />
         <Route path="/signin" element={<SignInPage />} />
         <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </BrowserRouter>
   );

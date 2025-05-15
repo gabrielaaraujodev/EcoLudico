@@ -57,9 +57,9 @@ function SignInPage() {
   return (
     <div className={styles.container}>
       <div className={styles.formContainer}>
-        <h2>Fazer login</h2>
+        <h2>Feliz em vê-lo novamente !</h2>
         {error && <p className={styles.errorMessage}>{error}</p>}
-        <form onSubmit={handleSubmit}>
+        <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.inputGroup}>
             <label htmlFor="email">E-mail</label>
             <input
