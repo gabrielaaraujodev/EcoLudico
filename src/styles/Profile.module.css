@@ -69,26 +69,31 @@
   background-color: #b8860b;
 }
 
-.projectsSection {
+.schoolSection {
   width: 90%;
   max-width: 800px;
+  margin-bottom: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 15px;
 }
 
-.projectsHeader {
+.schoolHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
 }
 
-.projectsHeader h3 {
+.schoolHeader h3 {
   margin-top: 0;
   font-size: 20px;
   color: #333;
 }
 
-.editProjectsButton {
-  background-color: #9370db;
+.editSchoolButton {
+  background-color: #007bff;
   color: white;
   border: none;
   padding: 8px 12px;
@@ -98,64 +103,128 @@
   transition: background-color 0.3s ease;
 }
 
-.editProjectsButton:hover {
-  background-color: #6a5acd;
+.editSchoolButton:hover {
+  background-color: #0056b3;
 }
 
-.projectsGrid {
+.schoolInfo {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 4px;
+  background-color: #f9f9f9;
 }
 
-.projectCard {
-  background-color: white;
+.schoolInfo strong {
+  font-weight: bold;
+  color: #333;
+}
+
+.sectionCard {
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 800px;
+}
+
+.sectionCard h3 {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.sectionCard ul {
+  padding-left: 20px;
+  list-style-type: disc;
+}
+
+.userEmail,
+.userType,
+.userDateBirth {
+  font-size: 14px;
+  color: #555; /* Corrigido para #555 */
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background-color: #fff;
+  padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 500px;
+}
+
+.modal h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.modalForm {
   display: flex;
   flex-direction: column;
 }
 
-.projectCardTop {
-  height: 80px;
-  background-color: #ddd;
-  /* Você pode adicionar estilos para exibir uma imagem aqui */
-}
-
-.projectCardContent {
-  padding: 15px;
-}
-
-.projectName {
-  margin-top: 0;
+.modalForm label {
   margin-bottom: 5px;
-  font-size: 18px;
-  color: #333;
+  font-weight: bold;
 }
 
-.projectMaterials {
-  margin-top: 0;
-  margin-bottom: 8px;
-  font-size: 14px;
-  color: #777;
+.modalForm input[type="text"],
+.modalForm textarea,
+.modalForm select {
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
 }
 
-.projectDescription {
-  margin-top: 0;
+.modalForm textarea {
+  resize: vertical;
+}
+
+.modalButtonContainer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.modalButton {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.modalButton:first-child {
+  background-color: #5cb85c;
+  color: white;
+}
+
+.modalButton:last-child {
+  background-color: #d9534f;
+  color: white;
+}
+
+.errorMessage {
+  color: #d9534f;
   margin-bottom: 10px;
-  font-size: 14px;
-  color: #555;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 3; /* Para navegadores WebKit */
-  -webkit-box-orient: vertical;
-  line-clamp: 3; /* Propriedade padrão para outros navegadores */
-}
-
-.projectSchoolName {
-  margin-top: 0;
-  margin-bottom: 0;
-  font-size: 12px;
-  color: #999;
 }

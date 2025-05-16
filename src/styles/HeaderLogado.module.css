@@ -1,0 +1,113 @@
+/* HeaderLogado.module.css */
+
+.header {
+  background-color: #386641; /* Um verde escuro, similar à imagem */
+  color: white;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.logo a {
+  color: white;
+  text-decoration: none;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+nav ul li {
+  margin-left: 20px;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+  color: #a7c957; /* Um verde mais claro ao passar o mouse */
+}
+
+.profileLink {
+  display: flex;
+  align-items: center;
+}
+
+.profileIcon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+  background-color: #d4f1a6; /* Cor de fundo clara para o ícone */
+}
+
+.editarPerfilButton {
+  background-color: #f2e7d5; /* Um bege claro */
+  color: #386641; /* Texto verde escuro */
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background-color 0.3s ease;
+}
+
+.editarPerfilButton:hover {
+  background-color: #a7c957; /* Verde mais claro ao passar o mouse */
+  color: white;
+}
+
+.logoutButton {
+  background-color: #d9534f; /* Vermelho para indicar sair */
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background-color 0.3s ease;
+  margin-left: 20px; /* Espaço do último link */
+}
+
+.logoutButton:hover {
+  background-color: #c9302c;
+}
+
+/* Estilos para telas menores */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .logo {
+    margin-bottom: 10px;
+  }
+
+  nav ul {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  nav ul li {
+    margin: 10px 0;
+  }
+
+  .editarPerfilButton {
+    margin-top: 10px;
+  }
+}

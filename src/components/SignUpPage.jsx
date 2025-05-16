@@ -67,8 +67,6 @@ const schoolFieldsConfig = [
     type: "text",
     required: true,
   },
-  { label: "Latitude", name: "schoolLatitude", type: "text" },
-  { label: "Longitude", name: "schoolLongitude", type: "text" },
   { label: "Contato Responsável", name: "schoolContact", type: "text" },
   {
     label: "Horário de Funcionamento",
@@ -107,16 +105,19 @@ const initialValues = {
   },
 };
 
-function SignUpPage() {
+function SignUpPage({ isLoggedIn }) {
   const [values, handleChange, setValues] = useForm(initialValues);
-
   const [error, setError] = React.useState("");
   const [page, setPage] = React.useState(1);
-
   const mapRef = React.useRef(null);
   const schoolMapRef = React.useRef(null);
-
   const navigate = useNavigate();
+
+  React.useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/", { replace: true });
+    }
+  }, [isLoggedIn, navigate]);
 
   React.useEffect(() => {
     if (page === 2) {
@@ -156,8 +157,8 @@ function SignUpPage() {
                 addressStreet: addressParts[0]?.trim() || "",
                 addressCity: city?.trim() || "",
                 addressState: state?.trim() || "",
-                latitude: latlng.lat, // Atualiza diretamente no objeto address
-                longitude: latlng.lng, // Atualiza diretamente no objeto address
+                latitude: latlng.lat,
+                longitude: latlng.lng,
               },
             }));
             map.setView(latlng, 16);
@@ -177,7 +178,6 @@ function SignUpPage() {
       }
     }
 
-    // Lógica similar para a escola (page === 3)
     if (page === 3 && values.type === "1") {
       const mapContainer = Leaftlet.DomUtil.get("school-address-map");
       if (mapContainer && !schoolMapRef.current) {
@@ -259,7 +259,6 @@ function SignUpPage() {
       Password: values.password,
       DateBirth: values.dateBirth,
       Address: {
-        // Corrigindo o case para corresponder ao AddressDTO
         Street: values.address.addressStreet,
         Number: values.address.addressNumber,
         Complement: values.address.addressComplement,
@@ -273,7 +272,6 @@ function SignUpPage() {
           ? {
               Name: values.school.schoolName,
               Address: {
-                // Caso a SchoolCreateDTO.Address também tenha case diferente
                 Street: values.school.schoolAddressStreet,
                 Number: values.school.schoolAddressNumber,
                 Complement: values.school.schoolAddressComplement,
@@ -364,7 +362,7 @@ function SignUpPage() {
                 <InputText
                   key={field.name}
                   {...field}
-                  name={`address.${field.name}`} // <---- MODIFICAÇÃO AQUI
+                  name={`address.${field.name}`}
                   value={values.address[field.name]}
                   onChange={handleChange}
                 />
@@ -399,7 +397,7 @@ function SignUpPage() {
                 <InputText
                   key={field.name}
                   {...field}
-                  name={`school.${field.name}`} // <---- MODIFICAÇÃO AQUI
+                  name={`school.${field.name}`}
                   value={values.school[field.name]}
                   onChange={handleChange}
                 />

@@ -1,14 +1,18 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-
 import styles from "../styles/SignInPage.module.css";
 
-function SignInPage() {
+function SignInPage({ onLoginSuccess }) {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [error, setError] = React.useState("");
-
   const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   if (isLoggedIn) {
+  //     navigate("/profile", { replace: true });
+  //   }
+  // }, [isLoggedIn, navigate]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -33,9 +37,9 @@ function SignInPage() {
       });
 
       if (response.ok) {
-        // const userData = await response.json();
-        // console.log("Login bem-sucedido!", userData);
-        navigate("/");
+        const userData = await response.json();
+        onLoginSuccess();
+        navigate("/profile", { state: { userId: userData.userId } });
       } else {
         const errorData = await response.json();
         if (errorData && errorData.error) {
@@ -45,8 +49,7 @@ function SignInPage() {
         }
       }
     } catch (error) {
-      setError("Erro de conexão com o servidor.");
-      console.error("Erro ao fazer login:", error);
+      setError(`Erro de conexão com o servidor: ${error}`);
     }
   };
 
