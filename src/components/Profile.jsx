@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import styles from "../styles/Profile.module.css";
 
@@ -13,7 +13,26 @@ function Profile({ isLoggedIn }) {
     React.useState(false);
   const [editingSchool, setEditingSchool] = React.useState(null);
 
-  React.useEffect(() => {
+  // Estados para o modal de postar projeto
+  const [isPostProjectModalOpen, setIsPostProjectModalOpen] =
+    React.useState(false);
+  const [newProject, setNewProject] = React.useState({
+    name: "",
+    description: "",
+    tutorial: "",
+    imageUrl: "",
+    ageRange: "",
+    materialsList: "",
+    schoolId: null,
+  });
+
+  // Estados para o carrossel de projetos
+  const [projects, setProjects] = useState([]);
+  const [carouselIndex, setCarouselIndex] = useState(0);
+  const [projectsLoading, setProjectsLoading] = useState(true);
+  const [projectsError, setProjectsError] = useState(null);
+
+  useEffect(() => {
     if (!isLoggedIn) {
       navigate("/signin");
       return;
@@ -40,6 +59,10 @@ function Profile({ isLoggedIn }) {
         const data = await response.json();
         setUser(data);
         setLoading(false);
+        setNewProject((prevProject) => ({
+          ...prevProject,
+          schoolId: data?.schoolId,
+        }));
       } catch (err) {
         setError(err.message);
         setLoading(false);
@@ -49,20 +72,41 @@ function Profile({ isLoggedIn }) {
     fetchUserData();
   }, [isLoggedIn, navigate, userIdFromNavigation]);
 
+  useEffect(() => {
+    const fetchProjects = async () => {
+      if (user?.userId && user?.type === 1 && user?.schoolId) {
+        setProjectsLoading(true);
+        setProjectsError(null);
+        try {
+          const response = await fetch(
+            `https://localhost:7253/api/Project/user/projects?userId=${user.userId}`
+          );
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          const data = await response.json();
+          setProjects(data);
+        } catch (err) {
+          setProjectsError(err.message);
+        } finally {
+          setProjectsLoading(false);
+        }
+      } else {
+        setProjects([]);
+        setProjectsLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, [user]);
+
   const handleEditProfileClick = () => {
     navigate("/edit-profile");
   };
 
   const openEditSchoolModal = () => {
     if (user?.school) {
-      setEditingSchool({
-        schoolId: user.schoolId,
-        name: user.school.name,
-        description: user.school.description,
-        contact: user.school.contact,
-        operatingHours: user.school.operatingHours,
-        address: { ...user.school.address },
-      });
+      setEditingSchool({ ...user.school.address, ...user.school });
       setIsEditSchoolModalOpen(true);
     } else {
       setError("Nenhuma escola cadastrada para editar.");
@@ -85,16 +129,6 @@ function Profile({ isLoggedIn }) {
           ...prevState.address,
           [addressFieldName]: value,
         },
-      }));
-    } else if (name === "responsibleContact") {
-      setEditingSchool((prevState) => ({
-        ...prevState,
-        contact: value,
-      }));
-    } else if (name === "openingHours") {
-      setEditingSchool((prevState) => ({
-        ...prevState,
-        operatingHours: value,
       }));
     } else {
       setEditingSchool((prevState) => ({
@@ -123,8 +157,7 @@ function Profile({ isLoggedIn }) {
           ...prevUser,
           school: {
             ...editingSchool,
-            contact: editingSchool.contact,
-            operatingHours: editingSchool.operatingHours,
+            address: { ...editingSchool.address },
           },
         }));
         closeEditSchoolModal();
@@ -143,11 +176,104 @@ function Profile({ isLoggedIn }) {
     }
   };
 
+  const openPostProjectModal = () => {
+    setIsPostProjectModalOpen(true);
+  };
+
+  const closePostProjectModal = () => {
+    setIsPostProjectModalOpen(false);
+    setNewProject({
+      name: "",
+      description: "",
+      tutorial: "",
+      imageUrl: "",
+      ageRange: "",
+      materialsList: "",
+      schoolId: user?.schoolId || null,
+    });
+    setError(null);
+  };
+
+  const handleNewProjectChange = (event) => {
+    const { name, value } = event.target;
+    setNewProject((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleSaveNewProject = async () => {
+    setError(null);
+
+    try {
+      const response = await fetch(
+        `https://localhost:7253/api/Project?userId=${userIdFromNavigation}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: newProject.name,
+            description: newProject.description,
+            tutorial: newProject.tutorial,
+            imageUrls: [newProject.imageUrl],
+            ageRange: parseInt(newProject.ageRange),
+            materialsList: newProject.materialsList,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        closePostProjectModal();
+        fetch(
+          `https://localhost:7253/api/Project/user/projects?userId=${user.userId}`
+        )
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(
+                `Erro ao recarregar projetos: ${response.status}`
+              );
+            }
+            return response.json();
+          })
+          .then((data) => setProjects(data))
+          .catch((err) => setProjectsError(err.message));
+      } else {
+        const errorData = await response.json();
+        setError(
+          `Erro ao criar projeto: ${response.statusText} - ${
+            errorData?.message || errorData?.error || "Erro desconhecido"
+          }`
+        );
+      }
+    } catch (err) {
+      setError(`Erro ao comunicar com o servidor: ${err.message}`);
+    }
+  };
+
+  const projectsPerPage = 3;
+
+  const goToPreviousProject = () => {
+    setCarouselIndex(
+      (prevIndex) =>
+        (prevIndex - 1 + Math.ceil(projects.length / projectsPerPage)) %
+        Math.ceil(projects.length / projectsPerPage)
+    );
+  };
+
+  const goToNextProject = () => {
+    setCarouselIndex(
+      (prevIndex) =>
+        (prevIndex + 1) % Math.ceil(projects.length / projectsPerPage)
+    );
+  };
+
   if (loading) {
     return <div>Carregando dados do usuário...</div>;
   }
 
-  if (error && !isEditSchoolModalOpen) {
+  if (error && !isEditSchoolModalOpen && !isPostProjectModalOpen) {
     return <div>Erro ao carregar dados do usuário: {error}</div>;
   }
 
@@ -233,6 +359,96 @@ function Profile({ isLoggedIn }) {
         )}
       </div>
 
+      <div className={styles.projectsSection}>
+        <h3>Meus Projetos da Escola</h3>
+        {user?.type === 1 && (
+          <button
+            className={styles.postProjectButton}
+            onClick={openPostProjectModal}
+          >
+            Postar Novo Projeto
+          </button>
+        )}
+
+        <div className={styles.carouselContainer}>
+          {projectsLoading && <div>Carregando projetos...</div>}
+          {projectsError && (
+            <div>Erro ao carregar projetos: {projectsError}</div>
+          )}
+          {projects.length > 0 && (
+            <>
+              {projects.length > projectsPerPage && (
+                <button className={styles.arrow} onClick={goToPreviousProject}>
+                  {"<"}
+                </button>
+              )}
+              <div className={styles.carouselWrapper}>
+                <div
+                  className={styles.carouselInner}
+                  style={{
+                    transform: `translateX(-${carouselIndex * 100}%)`,
+                    width: `${
+                      Math.ceil(projects.length / projectsPerPage) * 100
+                    }%`,
+                  }}
+                >
+                  {console.log(
+                    "Número de projetos ao renderizar:",
+                    projects.length
+                  )}
+                  {Array.from({
+                    length: Math.ceil(projects.length / projectsPerPage),
+                  }).map((_, pageIndex) => {
+                    const start = pageIndex * projectsPerPage;
+                    const end = start + projectsPerPage;
+                    const projectsInPage = projects.slice(start, end);
+
+                    return (
+                      <div key={pageIndex} className={styles.page}>
+                        {console.log(
+                          `Renderizando página ${pageIndex} com projetos:`,
+                          projectsInPage.map((p) => p.name)
+                        )}
+                        {projectsInPage.map((project) => (
+                          <div
+                            key={project.projectId}
+                            className={styles.carouselItem}
+                          >
+                            {project.imageUrls &&
+                              project.imageUrls.length > 0 && (
+                                <img
+                                  src={project.imageUrls[0].url}
+                                  alt={project.name}
+                                  className={styles.projectImage}
+                                />
+                              )}
+                            <h4 className={styles.projectName}>
+                              {project.name}
+                            </h4>
+                            <p className={styles.projectDescription}>
+                              {project.description}
+                            </p>
+                            {/* Adicione mais detalhes se necessário */}
+                          </div>
+                        ))}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+              {projects.length > projectsPerPage && (
+                <button className={styles.arrow} onClick={goToNextProject}>
+                  {">"}
+                </button>
+              )}
+            </>
+          )}
+          {projects.length === 0 && !projectsLoading && (
+            <p>Nenhum projeto cadastrado para esta escola.</p>
+          )}
+        </div>
+      </div>
+
       {isEditSchoolModalOpen && editingSchool && (
         <div className={styles.modalOverlay}>
           <div className={styles.modal}>
@@ -292,7 +508,7 @@ function Profile({ isLoggedIn }) {
               <input
                 type="text"
                 id="responsibleContact"
-                name="responsibleContact"
+                name="contact"
                 value={editingSchool.contact || ""}
                 onChange={handleEditSchoolChange}
               />
@@ -300,7 +516,7 @@ function Profile({ isLoggedIn }) {
               <input
                 type="text"
                 id="openingHours"
-                name="openingHours"
+                name="operatingHours"
                 value={editingSchool.operatingHours || ""}
                 onChange={handleEditSchoolChange}
               />
@@ -321,6 +537,91 @@ function Profile({ isLoggedIn }) {
                 <button
                   className={styles.modalButton}
                   onClick={closeEditSchoolModal}
+                >
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {isPostProjectModalOpen && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modal}>
+            <h3>Postar Novo Projeto</h3>
+            {error && <p className={styles.errorMessage}>{error}</p>}
+            <div className={styles.modalForm}>
+              <label htmlFor="name">Nome do Projeto:</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={newProject.name}
+                onChange={handleNewProjectChange}
+                required
+              />
+
+              <label htmlFor="description">Descrição:</label>
+              <textarea
+                id="description"
+                name="description"
+                value={newProject.description}
+                onChange={handleNewProjectChange}
+              />
+
+              <label htmlFor="tutorial">Tutorial (Opcional):</label>
+              <textarea
+                id="tutorial"
+                name="tutorial"
+                value={newProject.tutorial}
+                onChange={handleNewProjectChange}
+              />
+
+              <label htmlFor="imageUrl">URL da Imagem:</label>
+              <input
+                type="text"
+                id="imageUrl"
+                name="imageUrl"
+                value={newProject.imageUrl}
+                onChange={handleNewProjectChange}
+              />
+              <p className={styles.inputHelp}>
+                Cole aqui a URL da imagem já hospedada online.
+              </p>
+
+              <label htmlFor="ageRange">Faixa Etária:</label>
+              <select
+                id="ageRange"
+                name="ageRange"
+                value={newProject.ageRange}
+                onChange={handleNewProjectChange}
+              >
+                <option value="">Selecione</option>
+                <option value={1}>Infantil</option>
+                <option value={2}>Fundamental</option>
+                <option value={3}>Médio</option>
+                <option value={4}>Adulto</option>
+              </select>
+
+              <label htmlFor="materialsList">Lista de Materiais:</label>
+              <textarea
+                id="materialsList"
+                name="materialsList"
+                value={newProject.materialsList}
+                onChange={handleNewProjectChange}
+              />
+
+              <div className={styles.modalButtonContainer}>
+                <button
+                  className={styles.modalButton}
+                  onClick={handleSaveNewProject}
+                >
+                  Salvar Projeto
+                </button>
+                <button
+                  className={styles.modalButton}
+                  onClick={closePostProjectModal}
                 >
                   Cancelar
                 </button>
