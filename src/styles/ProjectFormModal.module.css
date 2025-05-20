@@ -1,0 +1,91 @@
+/* src/styles/ProjectFormModal.module.css */
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh; /* Limita a altura da modal */
+  overflow-y: auto; /* Adiciona scroll se o conteúdo for muito grande */
+}
+
+.modalContent h2 {
+  margin-top: 0;
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.formGroup {
+  margin-bottom: 15px;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
+}
+
+.formGroup input[type="text"],
+.formGroup textarea,
+.formGroup select {
+  width: calc(100% - 20px); /* Ajusta para padding */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.formGroup textarea {
+  resize: vertical; /* Permite redimensionar verticalmente */
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.formActions button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.formActions button[type="submit"] {
+  background-color: #28a745; /* Verde para Salvar/Atualizar */
+  color: white;
+}
+
+.formActions button[type="submit"]:hover {
+  background-color: #218838;
+}
+
+.formActions button[type="button"] {
+  background-color: #6c757d; /* Cinza para Cancelar */
+  color: white;
+}
+
+.formActions button[type="button"]:hover {
+  background-color: #5a6268;
+}

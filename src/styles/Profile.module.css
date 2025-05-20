@@ -123,6 +123,7 @@
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   padding: 15px;
+  display: block;
 }
 
 .projectsSection h3 {
@@ -148,29 +149,10 @@
   background-color: #0056b3;
 }
 
-.carouselContainer {
-  position: relative;
+.slickCarouselContainer {
+  margin: 20px 0;
+  padding: 0 30px;
   overflow: hidden;
-  padding: 15px;
-}
-
-.carouselWrapper {
-  overflow: hidden;
-}
-
-.carouselInner {
-  display: flex;
-  transition: transform 0.3s ease-in-out;
-}
-
-.page {
-  display: flex;
-  gap: 20px;
-  width: 100%;
-  flex-shrink: 0;
-  padding: 10px;
-  box-sizing: border-box;
-  justify-content: flex-start;
 }
 
 .carouselItem {
@@ -179,15 +161,27 @@
   border-radius: 8px;
   padding: 15px;
   box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.05);
-  width: calc(33% - 20px);
-  min-width: 200px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 250px;
   box-sizing: border-box;
-  margin: 10px 0;
+  height: 100%;
+}
+
+:global(.slick-slide) {
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+:global(.slick-list) {
+  margin: 0 -10px;
 }
 
 .projectImage {
   width: 100%;
-  max-height: 150px;
+  height: 150px;
   border-radius: 6px;
   margin-bottom: 10px;
   object-fit: cover;
@@ -202,27 +196,143 @@
 .projectDescription {
   font-size: 0.9em;
   color: #666;
+  flex-grow: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  line-clamp: 3;
 }
 
-.arrow {
+:global(.slick-prev),
+:global(.slick-next) {
+  font-size: 0;
+  line-height: 1;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: none;
-  border: none;
-  font-size: 1.5em;
-  color: #555;
+  padding: 0;
   cursor: pointer;
-  padding: 10px;
+  color: transparent;
+  border: none;
+  outline: none;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   z-index: 10;
 }
 
-.arrow:first-child {
-  left: 10px;
+:global(.slick-prev):hover,
+:global(.slick-next):hover {
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
-.arrow:last-child {
-  right: 10px;
+:global(.slick-prev)::before,
+:global(.slick-next)::before {
+  font-family: "slick";
+  font-size: 20px;
+  line-height: 1;
+  color: white;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+:global(.slick-prev)::before {
+  content: "←";
+}
+
+:global(.slick-next)::before {
+  content: "→";
+}
+
+:global(.slick-prev) {
+  left: 0px;
+}
+
+:global(.slick-next) {
+  right: 0px;
+}
+
+:global(.slick-dots) {
+  bottom: -40px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  text-align: center;
+  width: 100%;
+}
+
+:global(.slick-dots li) {
+  position: relative;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin: 0 5px;
+  padding: 0;
+  cursor: pointer;
+}
+
+:global(.slick-dots li button) {
+  font-size: 0;
+  line-height: 0;
+  display: block;
+  width: 20px;
+  height: 20px;
+  padding: 5px;
+  cursor: pointer;
+  color: transparent;
+  border: 0;
+  outline: none;
+  background: transparent;
+}
+
+:global(.slick-dots li button:before) {
+  font-family: "slick";
+  font-size: 10px;
+  line-height: 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  content: "•";
+  text-align: center;
+  color: #bbb;
+  opacity: 0.75;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+:global(.slick-dots li.slick-active button:before) {
+  color: #007bff;
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .profileHeader {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+  }
+  .profileImagePlaceholder {
+    margin-bottom: 10px;
+  }
+  .editProfileButton {
+    width: 100%;
+  }
+  .schoolHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .editSchoolButton {
+    width: 100%;
+  }
 }
 
 .modalOverlay {

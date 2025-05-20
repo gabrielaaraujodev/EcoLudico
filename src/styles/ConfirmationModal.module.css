@@ -1,0 +1,85 @@
+/* src/styles/ConfirmationModal.module.css */
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6); /* Fundo escuro transparente */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Garante que fique por cima de outros elementos */
+}
+
+.modalContent {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  animation: fadeInScale 0.3s ease-out; /* Adiciona uma pequena animação */
+}
+
+.modalContent h3 {
+  margin-top: 0;
+  color: #333;
+  font-size: 1.5em;
+}
+
+.modalContent p {
+  color: #666;
+  margin-bottom: 25px;
+  line-height: 1.5;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: center;
+  gap: 15px; /* Espaço entre os botões */
+}
+
+.confirmButton,
+.cancelButton {
+  padding: 10px 25px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1em;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.confirmButton {
+  background-color: #dc3545; /* Vermelho para confirmar exclusão */
+  color: white;
+}
+
+.confirmButton:hover {
+  background-color: #c82333;
+  transform: translateY(-2px);
+}
+
+.cancelButton {
+  background-color: #6c757d; /* Cinza para cancelar */
+  color: white;
+}
+
+.cancelButton:hover {
+  background-color: #5a6268;
+  transform: translateY(-2px);
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

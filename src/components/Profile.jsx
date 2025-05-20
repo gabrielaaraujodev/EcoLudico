@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import styles from "../styles/Profile.module.css";
+
+import Slider from "react-slick";
 
 function Profile({ isLoggedIn }) {
   const navigate = useNavigate();
@@ -8,12 +10,11 @@ function Profile({ isLoggedIn }) {
   const [user, setUser] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
-  const userIdFromNavigation = location.state?.userId;
+  const userIdFromNavigation = location.state?.currentUserId;
   const [isEditSchoolModalOpen, setIsEditSchoolModalOpen] =
     React.useState(false);
   const [editingSchool, setEditingSchool] = React.useState(null);
 
-  // Estados para o modal de postar projeto
   const [isPostProjectModalOpen, setIsPostProjectModalOpen] =
     React.useState(false);
   const [newProject, setNewProject] = React.useState({
@@ -26,13 +27,11 @@ function Profile({ isLoggedIn }) {
     schoolId: null,
   });
 
-  // Estados para o carrossel de projetos
-  const [projects, setProjects] = useState([]);
-  const [carouselIndex, setCarouselIndex] = useState(0);
-  const [projectsLoading, setProjectsLoading] = useState(true);
-  const [projectsError, setProjectsError] = useState(null);
+  const [projects, setProjects] = React.useState([]);
+  const [projectsLoading, setProjectsLoading] = React.useState(true);
+  const [projectsError, setProjectsError] = React.useState(null);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (!isLoggedIn) {
       navigate("/signin");
       return;
@@ -72,7 +71,7 @@ function Profile({ isLoggedIn }) {
     fetchUserData();
   }, [isLoggedIn, navigate, userIdFromNavigation]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const fetchProjects = async () => {
       if (user?.userId && user?.type === 1 && user?.schoolId) {
         setProjectsLoading(true);
@@ -252,21 +251,29 @@ function Profile({ isLoggedIn }) {
     }
   };
 
-  const projectsPerPage = 3;
-
-  const goToPreviousProject = () => {
-    setCarouselIndex(
-      (prevIndex) =>
-        (prevIndex - 1 + Math.ceil(projects.length / projectsPerPage)) %
-        Math.ceil(projects.length / projectsPerPage)
-    );
-  };
-
-  const goToNextProject = () => {
-    setCarouselIndex(
-      (prevIndex) =>
-        (prevIndex + 1) % Math.ceil(projects.length / projectsPerPage)
-    );
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    arrows: true,
+    responsive: [
+      {
+        breakpoint: 992,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
 
   if (loading) {
@@ -370,83 +377,47 @@ function Profile({ isLoggedIn }) {
           </button>
         )}
 
-        <div className={styles.carouselContainer}>
-          {projectsLoading && <div>Carregando projetos...</div>}
-          {projectsError && (
-            <div>Erro ao carregar projetos: {projectsError}</div>
-          )}
-          {projects.length > 0 && (
-            <>
-              {projects.length > projectsPerPage && (
-                <button className={styles.arrow} onClick={goToPreviousProject}>
-                  {"<"}
-                </button>
-              )}
-              <div className={styles.carouselWrapper}>
+        {projectsLoading && <div>Carregando projetos...</div>}
+        {projectsError && <div>Erro ao carregar projetos: {projectsError}</div>}
+        {projects.length > 0 && (
+          <div className={styles.slickCarouselContainer}>
+            {" "}
+            <Slider {...settings}>
+              {projects.map((project) => (
                 <div
-                  className={styles.carouselInner}
-                  style={{
-                    transform: `translateX(-${carouselIndex * 100}%)`,
-                    width: `${
-                      Math.ceil(projects.length / projectsPerPage) * 100
-                    }%`,
-                  }}
+                  key={project.projectId}
+                  className={styles.slickCarouselItemWrapper}
                 >
-                  {console.log(
-                    "Número de projetos ao renderizar:",
-                    projects.length
-                  )}
-                  {Array.from({
-                    length: Math.ceil(projects.length / projectsPerPage),
-                  }).map((_, pageIndex) => {
-                    const start = pageIndex * projectsPerPage;
-                    const end = start + projectsPerPage;
-                    const projectsInPage = projects.slice(start, end);
-
-                    return (
-                      <div key={pageIndex} className={styles.page}>
-                        {console.log(
-                          `Renderizando página ${pageIndex} com projetos:`,
-                          projectsInPage.map((p) => p.name)
-                        )}
-                        {projectsInPage.map((project) => (
-                          <div
-                            key={project.projectId}
-                            className={styles.carouselItem}
-                          >
-                            {project.imageUrls &&
-                              project.imageUrls.length > 0 && (
-                                <img
-                                  src={project.imageUrls[0].url}
-                                  alt={project.name}
-                                  className={styles.projectImage}
-                                />
-                              )}
-                            <h4 className={styles.projectName}>
-                              {project.name}
-                            </h4>
-                            <p className={styles.projectDescription}>
-                              {project.description}
-                            </p>
-                            {/* Adicione mais detalhes se necessário */}
-                          </div>
-                        ))}
-                      </div>
-                    );
-                  })}
+                  {" "}
+                  <div
+                    className={styles.carouselItem}
+                    onClick={() =>
+                      navigate(`/project/${project.projectId}`, {
+                        state: { currentUserId: user.userId },
+                      })
+                    }
+                    style={{ cursor: "pointer" }}
+                  >
+                    {project.imageUrls && project.imageUrls.length > 0 && (
+                      <img
+                        src={project.imageUrls[0].url}
+                        alt={project.name}
+                        className={styles.projectImage}
+                      />
+                    )}
+                    <h4 className={styles.projectName}>{project.name}</h4>
+                    <p className={styles.projectDescription}>
+                      {project.description}
+                    </p>
+                  </div>
                 </div>
-              </div>
-              {projects.length > projectsPerPage && (
-                <button className={styles.arrow} onClick={goToNextProject}>
-                  {">"}
-                </button>
-              )}
-            </>
-          )}
-          {projects.length === 0 && !projectsLoading && (
-            <p>Nenhum projeto cadastrado para esta escola.</p>
-          )}
-        </div>
+              ))}
+            </Slider>
+          </div>
+        )}
+        {projects.length === 0 && !projectsLoading && (
+          <p>Nenhum projeto cadastrado para esta escola.</p>
+        )}
       </div>
 
       {isEditSchoolModalOpen && editingSchool && (

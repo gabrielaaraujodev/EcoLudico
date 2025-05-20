@@ -1,5 +1,3 @@
-import React from "react";
-
 import ServicesSection from "./ServicesSection";
 
 import location from "../images/location.png";

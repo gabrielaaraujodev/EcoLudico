@@ -1,5 +1,3 @@
-import React from "react";
-
 import worldImage from "../images/firstHomeImage.svg";
 
 import styles from "../styles/IdeaSection.module.css";

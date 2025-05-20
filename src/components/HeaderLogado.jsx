@@ -1,10 +1,8 @@
-// HeaderLogado.jsx
-import React from "react";
 import { Link } from "react-router-dom";
 import styles from "../styles/HeaderLogado.module.css";
 import logo from "../images/logo.svg";
 
-function HeaderLogado({ onLogout }) {
+function HeaderLogado({ onLogout, currentUserId }) {
   return (
     <header className={styles.header}>
       <nav>
@@ -16,10 +14,19 @@ function HeaderLogado({ onLogout }) {
             <Link to="/favoritos">Favoritos</Link>
           </li>
           <li>
-            <Link to="/projetos">Projetos</Link>
+            <Link
+              to="/favorite-projects"
+              state={{ currentUserId: currentUserId }}
+            >
+              Projetos Favoritados
+            </Link>
           </li>
           <li>
-            <Link to="/profile" className={styles.profileLink}>
+            <Link
+              to="/profile"
+              className={styles.profileLink}
+              state={{ currentUserId: currentUserId }}
+            >
               <img src={logo} alt="Perfil" className={styles.profileIcon} />
             </Link>
           </li>

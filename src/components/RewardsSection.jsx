@@ -1,5 +1,3 @@
-import React from "react";
-
 import recycleTrash from "../images/recycleTrash.svg";
 import nature from "../images/nature.svg";
 import world from "../images/world.svg";
@@ -19,7 +17,7 @@ function RewardsSection() {
           <img
             src={recycleTrash}
             alt="Materiais Recicláveis"
-            className={styles["animate-image-1"]} // Acesse a classe do módulo
+            className={styles["animate-image-1"]}
           />
           <h1>Retirar materiais inutilizados de casa.</h1>
           <p>
@@ -31,7 +29,7 @@ function RewardsSection() {
           <img
             src={nature}
             alt="Ajude a natureza"
-            className={styles["animate-image-2"]} // Acesse a classe do módulo
+            className={styles["animate-image-2"]}
           />
           <h1>Ajude a natureza</h1>
           <p>
@@ -43,7 +41,7 @@ function RewardsSection() {
           <img
             src={world}
             alt="Salve o mundo"
-            className={styles["animate-image-3"]} // Acesse a classe do módulo
+            className={styles["animate-image-3"]}
           />
           <h1>Salve o mundo</h1>
           <p>

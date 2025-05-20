@@ -1,5 +1,3 @@
-import React from "react";
-
 import styles from "../styles/ServicesSection.module.css";
 
 import sCenter from "../images/sCenter.svg";

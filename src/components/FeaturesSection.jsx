@@ -1,5 +1,3 @@
-import React from "react";
-
 import collecting from "../images/collecting.svg";
 import doll from "../images/doll.png";
 import children from "../images/children.png";
@@ -18,7 +16,7 @@ function FeaturesSection() {
           <img
             src={collecting}
             alt="Materiais Recicláveis"
-            className={styles["animate-image-1"]} // Acesse a classe do módulo
+            className={styles["animate-image-1"]}
           />
           <h1>Doação e Coleta</h1>
           <p>
@@ -32,7 +30,7 @@ function FeaturesSection() {
           <img
             src={doll}
             alt="Boneco Reciclável"
-            className={styles["animate-image-2"]} // Acesse a classe do módulo
+            className={styles["animate-image-2"]}
           />
           <h1>Transformar</h1>
           <p>
@@ -45,7 +43,7 @@ function FeaturesSection() {
           <img
             src={children}
             alt="Crianças Brincando"
-            className={styles["animate-image-3"]} // Acesse a classe do módulo
+            className={styles["animate-image-3"]}
           />
           <h1>Utilizar</h1>
           <p>

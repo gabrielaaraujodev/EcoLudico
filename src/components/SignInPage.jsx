@@ -8,12 +8,6 @@ function SignInPage({ onLoginSuccess }) {
   const [error, setError] = React.useState("");
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   if (isLoggedIn) {
-  //     navigate("/profile", { replace: true });
-  //   }
-  // }, [isLoggedIn, navigate]);
-
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     if (name === "email") {
@@ -38,8 +32,8 @@ function SignInPage({ onLoginSuccess }) {
 
       if (response.ok) {
         const userData = await response.json();
-        onLoginSuccess();
-        navigate("/profile", { state: { userId: userData.userId } });
+        onLoginSuccess(userData.userId);
+        navigate("/profile", { state: { currentUserId: userData.userId } });
       } else {
         const errorData = await response.json();
         if (errorData && errorData.error) {
