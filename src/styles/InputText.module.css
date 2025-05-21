@@ -20,5 +20,5 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 1em;
-  box-sizing: border-box; /* Impede que o padding aumente a largura total */
+  box-sizing: border-box;
 }

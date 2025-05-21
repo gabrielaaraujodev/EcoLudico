@@ -1,16 +1,14 @@
-/* src/styles/ConfirmationModal.module.css */
-
 .modalOverlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.6); /* Fundo escuro transparente */
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* Garante que fique por cima de outros elementos */
+  z-index: 1000;
 }
 
 .modalContent {
@@ -21,7 +19,7 @@
   max-width: 400px;
   width: 90%;
   text-align: center;
-  animation: fadeInScale 0.3s ease-out; /* Adiciona uma pequena animação */
+  animation: fadeInScale 0.3s ease-out;
 }
 
 .modalContent h3 {
@@ -39,7 +37,7 @@
 .modalActions {
   display: flex;
   justify-content: center;
-  gap: 15px; /* Espaço entre os botões */
+  gap: 15px;
 }
 
 .confirmButton,
@@ -54,7 +52,7 @@
 }
 
 .confirmButton {
-  background-color: #dc3545; /* Vermelho para confirmar exclusão */
+  background-color: #dc3545;
   color: white;
 }
 
@@ -64,7 +62,7 @@
 }
 
 .cancelButton {
-  background-color: #6c757d; /* Cinza para cancelar */
+  background-color: #6c757d;
   color: white;
 }
 

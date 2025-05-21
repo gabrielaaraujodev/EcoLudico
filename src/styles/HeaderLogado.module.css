@@ -1,11 +1,9 @@
-/* HeaderLogado.module.css */
-
 .header {
-  background-color: #386641; /* Um verde escuro, similar à imagem */
+  background-color: #386641;
   color: white;
   padding: 15px 20px;
   display: flex;
-  justify-content: space-between;
+  justify-content: end;
   align-items: center;
 }
 
@@ -38,7 +36,7 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-  color: #a7c957; /* Um verde mais claro ao passar o mouse */
+  color: #a7c957;
 }
 
 .profileLink {
@@ -52,12 +50,12 @@ nav ul li a:hover {
   border-radius: 50%;
   object-fit: cover;
   margin-right: 10px;
-  background-color: #d4f1a6; /* Cor de fundo clara para o ícone */
+  background-color: #d4f1a6;
 }
 
 .editarPerfilButton {
-  background-color: #f2e7d5; /* Um bege claro */
-  color: #386641; /* Texto verde escuro */
+  background-color: #f2e7d5;
+  color: #386641;
   border: none;
   padding: 8px 12px;
   border-radius: 5px;
@@ -67,12 +65,12 @@ nav ul li a:hover {
 }
 
 .editarPerfilButton:hover {
-  background-color: #a7c957; /* Verde mais claro ao passar o mouse */
+  background-color: #a7c957;
   color: white;
 }
 
 .logoutButton {
-  background-color: #d9534f; /* Vermelho para indicar sair */
+  background-color: #d9534f;
   color: white;
   border: none;
   padding: 8px 12px;
@@ -80,14 +78,13 @@ nav ul li a:hover {
   cursor: pointer;
   font-size: 0.9em;
   transition: background-color 0.3s ease;
-  margin-left: 20px; /* Espaço do último link */
+  margin-left: 20px;
 }
 
 .logoutButton:hover {
   background-color: #c9302c;
 }
 
-/* Estilos para telas menores */
 @media (max-width: 768px) {
   .header {
     flex-direction: column;

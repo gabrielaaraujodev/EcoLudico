@@ -60,7 +60,6 @@
   cursor: pointer;
 }
 
-/* Tablets */
 @media (max-width: 768px) {
   .nav {
     padding: 1rem 2rem;
@@ -128,9 +127,9 @@
   }
 
   .buttonsContainer {
-    display: flex; /* Alinhar os botões horizontalmente */
-    gap: 1rem; /* Espaço entre os botões */
-    margin-top: 1rem; /* Espaço acima dos botões dentro do menu */
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
   }
 
   .btnSignIn,
@@ -158,22 +157,21 @@
     display: none;
   }
 
-  /* Precisamos mostrar os links e botões normalmente em telas maiores */
   .links {
-    display: flex !important; /* Importante para sobrepor o display: none da media query menor */
-    flex-direction: row !important; /* Voltar para a disposição horizontal */
-    position: static !important; /* Remover o posicionamento absoluto */
-    background-color: transparent !important; /* Remover a cor de fundo do menu */
-    width: auto !important; /* Ajustar a largura automaticamente */
-    padding: 0 !important; /* Remover o padding do menu */
-    box-shadow: none !important; /* Remover a sombra */
-    border-radius: 0 !important; /* Remover as bordas arredondadas */
-    align-items: center !important; /* Alinhar os itens verticalmente */
+    display: flex !important;
+    flex-direction: row !important;
+    position: static !important;
+    background-color: transparent !important;
+    width: auto !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    align-items: center !important;
   }
 
   .buttonsContainer {
-    display: flex !important; /* Mostrar os botões */
-    gap: 2rem !important; /* Espaço entre os botões na navegação principal */
-    margin-top: 0 !important; /* Remover a margem superior */
+    display: flex !important;
+    gap: 2rem !important;
+    margin-top: 0 !important;
   }
 }

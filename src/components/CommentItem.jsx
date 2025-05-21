@@ -1,4 +1,4 @@
-import styles from "../styles/ProjectDetails.module.css";
+import styles from "../styles/CommentItem.module.css";
 
 function CommentItem({
   comment,
@@ -7,38 +7,44 @@ function CommentItem({
   onEdit,
   onDelete,
 }) {
-  const isCommentOwner = comment.userId === currentUserId;
+  const canEditThisComment = currentUserId && comment.userId === currentUserId;
 
-  const formattedDate = new Date(comment.creationDate).toLocaleDateString(
-    "pt-BR"
-  );
+  const canDeleteThisComment =
+    currentUserId && (comment.userId === currentUserId || isProjectOwner);
 
   return (
-    <div key={comment.commentId} className={styles.commentItem}>
+    <div className={styles.commentItem}>
       <p className={styles.commentAuthor}>
-        <strong>{comment.userName || "Usuário Desconhecido"}</strong> em{" "}
-        {formattedDate}
+        {comment.userName || "Usuário Desconhecido"} -{" "}
+        <span className={styles.commentDate}>
+          {new Date(comment.creationDate).toLocaleString()}
+        </span>
       </p>
-      <p className={styles.commentText}>{comment.content}</p>
+      <p className={styles.commentContent}>{comment.content}</p>
 
-      <div className={styles.commentActions}>
-        {!isProjectOwner && isCommentOwner && (
-          <button
-            onClick={() => onEdit(comment.commentId, comment.content)}
-            className={styles.editButton}
-          >
-            Editar
-          </button>
-        )}
-        {(isProjectOwner || isCommentOwner) && (
-          <button
-            onClick={() => onDelete(comment.commentId)}
-            className={styles.deleteButton}
-          >
-            Excluir
-          </button>
-        )}
-      </div>
+      {currentUserId && (
+        <div className={styles.commentActions}>
+          {canEditThisComment && (
+            <button
+              onClick={() => onEdit(comment.commentId, comment.content)}
+              className={styles.editButton}
+              aria-label="Editar comentário"
+            >
+              Editar
+            </button>
+          )}
+
+          {canDeleteThisComment && (
+            <button
+              onClick={() => onDelete(comment.commentId)}
+              className={styles.deleteButton}
+              aria-label="Excluir comentário"
+            >
+              Excluir
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 }

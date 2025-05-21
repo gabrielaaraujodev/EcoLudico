@@ -47,11 +47,10 @@
 
 .features img {
   border-radius: 25px;
-  opacity: 0; /* Inicialmente invisível */
-  transform: translateY(20px); /* Inicialmente um pouco abaixo */
+  opacity: 0;
+  transform: translateY(20px);
 }
 
-/* Definição da animação de fade-in e slide-up */
 @keyframes fadeInSlideUp {
   from {
     opacity: 0;
@@ -63,17 +62,16 @@
   }
 }
 
-/* Aplicando a animação com diferentes atrasos para cada imagem */
 .animate-image-1 {
-  animation: fadeInSlideUp 0.5s ease-out 0.3s forwards; /* Duração, easing, atraso, manter estado final */
+  animation: fadeInSlideUp 0.5s ease-out 0.3s forwards;
 }
 
 .animate-image-2 {
-  animation: fadeInSlideUp 0.5s ease-out 0.6s forwards; /* Atraso um pouco maior */
+  animation: fadeInSlideUp 0.5s ease-out 0.6s forwards;
 }
 
 .animate-image-3 {
-  animation: fadeInSlideUp 0.5s ease-out 0.9s forwards; /* Atraso ainda maior */
+  animation: fadeInSlideUp 0.5s ease-out 0.9s forwards;
 }
 
 @media (max-width: 768px) {

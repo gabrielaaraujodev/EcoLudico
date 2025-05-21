@@ -50,48 +50,47 @@
 
 @media (max-width: 600px) {
   .container {
-    flex-direction: column; /* Empilha os elementos verticalmente */
-    align-items: center; /* Centraliza os elementos */
-    padding: 2rem; /* Reduz o padding geral */
-    text-align: center; /* Centraliza o texto dentro dos elementos */
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    text-align: center;
   }
 
   .logoTitulo {
-    margin-bottom: 1.5rem; /* Adiciona espaço abaixo da logo e título */
+    margin-bottom: 1.5rem;
   }
 
   .titulo {
-    font-size: 20px; /* Reduz o tamanho da fonte do título */
+    font-size: 20px;
   }
 
   .logo {
-    width: 1.2rem; /* Reduz o tamanho da logo */
+    width: 1.2rem;
     height: 1rem;
   }
 
   .list {
-    align-items: center; /* Centraliza os itens da lista */
-    margin-bottom: 1.5rem; /* Adiciona espaço abaixo da lista */
+    align-items: center;
+    margin-bottom: 1.5rem;
   }
 
   .list li {
-    font-size: 1rem; /* Reduz o tamanho da fonte dos links */
+    font-size: 1rem;
   }
 
   .contato {
-    align-items: center; /* Centraliza os itens de contato */
+    align-items: center;
   }
 
   .contato p {
-    font-size: 1rem; /* Reduz o tamanho da fonte do contato */
+    font-size: 1rem;
   }
 }
 
-/* Para telas um pouco maiores (tablets, até 768px), podemos ajustar o padding e o espaçamento */
 @media (min-width: 601px) and (max-width: 768px) {
   .container {
     padding: 2.5rem 1.5rem;
-    justify-content: space-around; /* Distribui os elementos com um pouco mais espaço */
+    justify-content: space-around;
   }
 
   .titulo {

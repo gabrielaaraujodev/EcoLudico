@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { useParams, useLocation, useNavigate, Link } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -342,12 +342,22 @@ function ProjectDetails() {
       case 2:
         return "Fundamental";
       case 3:
-      case 30:
         return "Médio";
       case 4:
-      case 40:
+        return "Adulto";
+      case "Infantil":
+        return "Infantil";
+      case "Fundamental":
+        return "Fundamental";
+      case "Medio":
+        return "Médio";
+      case "Adulto":
         return "Adulto";
       default:
+        console.warn(
+          "Valor de faixa etária desconhecido ou inválido:",
+          ageRangeValue
+        );
         return "Não especificado";
     }
   };
@@ -433,6 +443,21 @@ function ProjectDetails() {
 
           <h3>Materiais Utilizados</h3>
           <p>{project.materialsList || "Nenhum material listado."}</p>
+
+          {project.school &&
+            project.school.name &&
+            project.schoolOwnerUserId && (
+              <div className={styles.schoolInfo}>
+                <h3>Escola</h3>
+                <Link
+                  to="/profile"
+                  state={{ currentUserId: project.schoolOwnerUserId }}
+                  className={styles.schoolLink}
+                >
+                  {project.school.name}
+                </Link>
+              </div>
+            )}
         </div>
       </div>
 
@@ -452,7 +477,7 @@ function ProjectDetails() {
 
       <div className={styles.commentsSection}>
         <h3>Comentários</h3>
-        {currentUserId && !isProjectOwner && !showCommentForm && (
+        {currentUserId && !showCommentForm && (
           <button
             onClick={() => {
               setShowCommentForm(true);
@@ -463,7 +488,6 @@ function ProjectDetails() {
             Fazer Comentário
           </button>
         )}
-
         {showCommentForm && (
           <CommentForm
             initialContent={editingComment ? editingComment.content : ""}
@@ -480,7 +504,6 @@ function ProjectDetails() {
             }}
           />
         )}
-
         {project.comments && project.comments.length > 0 ? (
           <div className={styles.commentsList}>
             {project.comments.map((comment) => (

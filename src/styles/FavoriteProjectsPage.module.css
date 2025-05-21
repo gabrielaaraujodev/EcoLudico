@@ -1,13 +1,9 @@
-/* src/styles/FavoriteProjectsPage.module.css */
-
 .container {
   padding: 40px 20px;
   max-width: 1200px;
   margin: 0 auto;
   background-color: #f0f2f5;
-  min-height: calc(
-    100vh - 80px
-  ); /* Considere ajustar este valor para a altura do seu header e footer */
+  min-height: calc(100vh - 80px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -24,16 +20,12 @@
 
 .projectsGrid {
   display: grid;
-  /* Ajuste crucial: Limitamos a largura máxima da coluna aqui */
-  grid-template-columns: repeat(
-    auto-fit,
-    minmax(280px, 350px)
-  ); /* MÁXIMO DE 350px por card */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 350px));
   gap: 30px;
   width: 100%;
-  max-width: 1100px; /* Poderia ser um pouco maior, mas garantindo que o grid se alinhe */
+  max-width: 1100px;
   margin: 0 auto;
-  justify-content: center; /* Centraliza os cards no grid */
+  justify-content: center;
 }
 
 .projectCard {
@@ -47,7 +39,6 @@
   text-align: center;
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
   box-sizing: border-box;
-  /* Removendo max-width direto aqui para que o grid controle o tamanho */
 }
 
 .projectCard:hover {
@@ -63,14 +54,12 @@
 }
 
 .projectCard .projectImage {
-  width: 100%; /* Continua sendo 100% da largura do card */
+  width: 100%;
   max-height: 200px;
   object-fit: cover;
   border-radius: 8px;
   margin-bottom: 20px;
   border: 1px solid #eee;
-  /* Podemos adicionar um max-width aqui se a imagem estiver deformando */
-  /* max-width: 300px; /* Exemplo: se o card for 350px, a imagem não será maior que 300px */
 }
 
 .projectCard p {
@@ -115,11 +104,9 @@
   font-weight: bold;
 }
 
-/* Responsividade básica */
 @media (max-width: 768px) {
   .projectsGrid {
-    /* Em telas menores, pode ir para uma coluna e o minmax já se ajusta */
-    grid-template-columns: 1fr; /* Uma coluna, ocupa 100% do espaço disponível */
+    grid-template-columns: 1fr;
     padding: 0 15px;
   }
   .pageTitle {

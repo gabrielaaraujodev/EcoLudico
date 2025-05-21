@@ -20,8 +20,8 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   width: 90%;
   max-width: 600px;
-  max-height: 90vh; /* Limita a altura da modal */
-  overflow-y: auto; /* Adiciona scroll se o conteúdo for muito grande */
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 .modalContent h2 {
@@ -45,7 +45,7 @@
 .formGroup input[type="text"],
 .formGroup textarea,
 .formGroup select {
-  width: calc(100% - 20px); /* Ajusta para padding */
+  width: calc(100% - 20px);
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -53,7 +53,7 @@
 }
 
 .formGroup textarea {
-  resize: vertical; /* Permite redimensionar verticalmente */
+  resize: vertical;
 }
 
 .formActions {
@@ -73,7 +73,7 @@
 }
 
 .formActions button[type="submit"] {
-  background-color: #28a745; /* Verde para Salvar/Atualizar */
+  background-color: #28a745;
   color: white;
 }
 
@@ -82,7 +82,7 @@
 }
 
 .formActions button[type="button"] {
-  background-color: #6c757d; /* Cinza para Cancelar */
+  background-color: #6c757d;
   color: white;
 }
 

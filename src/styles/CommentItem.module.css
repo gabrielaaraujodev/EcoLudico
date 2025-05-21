@@ -1,0 +1,96 @@
+.commentItem {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+.commentAuthor {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+  font-size: 0.95em;
+}
+
+.commentDate {
+  font-weight: normal;
+  color: #777;
+  font-size: 0.85em;
+}
+
+.commentContent {
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 10px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.commentActions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  justify-content: flex-end;
+}
+
+.editButton,
+.deleteButton {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  font-size: 0.85em;
+}
+
+.editButton {
+  background-color: #007bff;
+  color: white;
+}
+
+.editButton:hover {
+  background-color: #0056b3;
+  transform: translateY(-1px);
+}
+
+.editButton:active {
+  transform: translateY(0);
+}
+
+.deleteButton {
+  background-color: #dc3545;
+  color: white;
+}
+
+.deleteButton:hover {
+  background-color: #c82333;
+  transform: translateY(-1px);
+}
+
+.deleteButton:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 600px) {
+  .commentItem {
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
+  .commentActions {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;
+  }
+
+  .editButton,
+  .deleteButton {
+    width: fit-content;
+    align-self: flex-end;
+  }
+}

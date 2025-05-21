@@ -57,44 +57,44 @@
 
 @media (max-width: 768px) {
   .container {
-    width: 90%; /* Aumentando a largura do container em telas menores */
-    padding-bottom: 1rem; /* Reduzindo um pouco o padding inferior */
+    width: 90%;
+    padding-bottom: 1rem;
   }
 
   .title {
-    font-size: 30px; /* Reduzindo o tamanho do título */
-    text-align: center; /* Centralizando o título */
+    font-size: 30px;
+    text-align: center;
   }
 
   .divLinks {
-    flex-direction: column; /* Empilhando os links e o mapa */
-    align-items: center; /* Centralizando os itens na coluna */
-    padding: 1rem; /* Reduzindo o padding interno */
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
   }
 
   .links {
-    width: 100%; /* Os links ocupam a largura total */
-    flex-direction: row; /* Voltando para a linha */
-    justify-content: space-around; /* Distribuindo os itens horizontalmente */
-    margin-bottom: 1rem; /* Adicionando espaço abaixo dos links */
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-bottom: 1rem;
   }
 
   .links li {
-    flex-direction: column; /* Empilhando imagem e texto em cada item */
-    align-items: center; /* Centralizando imagem e texto */
-    text-align: center; /* Centralizando o texto */
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
   .links li img {
-    width: 40px; /* Aumentando um pouco o tamanho da imagem */
-    margin-bottom: 0.5rem; /* Adicionando espaço abaixo da imagem */
+    width: 40px;
+    margin-bottom: 0.5rem;
   }
 
   .links p {
-    font-size: 1.2rem; /* Reduzindo o tamanho da fonte do texto */
+    font-size: 1.2rem;
   }
 
   .googleMaps {
-    width: 100%; /* O mapa ocupa a largura total */
-    max-width: 400px; /* Limitando a largura máxima do mapa */
+    width: 100%;
+    max-width: 400px;
   }
 }

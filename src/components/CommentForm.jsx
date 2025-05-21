@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import styles from "../styles/ProjectDetails.module.css";
+import React from "react";
+import styles from "../styles/CommentForm.module.css";
 
 function CommentForm({
   initialContent = "",
@@ -7,9 +7,9 @@ function CommentForm({
   onSubmit,
   onCancel,
 }) {
-  const [content, setContent] = useState(initialContent);
+  const [content, setContent] = React.useState(initialContent);
 
-  useEffect(() => {
+  React.useEffect(() => {
     setContent(initialContent);
   }, [initialContent, isEditing]);
 

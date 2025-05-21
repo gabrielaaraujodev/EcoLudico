@@ -11,7 +11,9 @@ function HeaderLogado({ onLogout, currentUserId }) {
             <Link to="/pontos-de-coleta">Pontos de Coleta</Link>
           </li>
           <li>
-            <Link to="/favoritos">Favoritos</Link>
+            <Link to="/projetos" state={{ currentUserId: currentUserId }}>
+              Projetos
+            </Link>
           </li>
           <li>
             <Link

@@ -1,6 +1,8 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import "./styles/app.css";
+
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -16,8 +18,7 @@ import SignUpPage from "./components/SignUpPage";
 import Profile from "./components/Profile";
 import ProjectDetails from "./components/ProjectDetails";
 import FavoriteProjectsPage from "./components/FavoriteProjectsPage";
-
-import "./styles/app.css";
+import ProjectsPage from "./components/ProjectsPage";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
@@ -57,7 +58,7 @@ function App() {
           path="/signin"
           element={
             <SignInPage
-              onLoginSuccess={handleLoginSuccess} // <--- onLoginSuccess AGORA ESPERA UM userId
+              onLoginSuccess={handleLoginSuccess}
               isLoggedIn={isLoggedIn}
             />
           }
@@ -66,9 +67,25 @@ function App() {
           path="/signup"
           element={<SignUpPage isLoggedIn={isLoggedIn} />}
         />
-        <Route path="/profile" element={<Profile isLoggedIn={isLoggedIn} />} />
-        <Route path="/project/:projectId" element={<ProjectDetails />} />
-        <Route path="/favorite-projects" element={<FavoriteProjectsPage />} />
+        <Route
+          path="/profile"
+          element={
+            <Profile isLoggedIn={isLoggedIn} currentUserId={currentUserId} />
+          }
+        />
+
+        <Route
+          path="/project/:projectId"
+          element={<ProjectDetails currentUserId={currentUserId} />}
+        />
+        <Route
+          path="/favorite-projects"
+          element={<FavoriteProjectsPage currentUserId={currentUserId} />}
+        />
+        <Route
+          path="/projetos"
+          element={<ProjectsPage currentUserId={currentUserId} />}
+        />
       </Routes>
     </BrowserRouter>
   );
