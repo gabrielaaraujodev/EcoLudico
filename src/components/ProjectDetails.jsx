@@ -25,6 +25,7 @@ function ProjectDetails() {
   const [isEditModalOpen, setIsEditModalOpen] = React.useState(false);
   const [isDeleteConfirmModalOpen, setIsDeleteConfirmModalOpen] =
     React.useState(false);
+  const [projectDeleted, setProjectDeleted] = React.useState(false);
   const [isFavorite, setIsFavorite] = React.useState(false);
 
   const API_BASE_URL = "https://localhost:7253";
@@ -56,6 +57,10 @@ function ProjectDetails() {
   }, [currentUserId, projectId]);
 
   const fetchProjectDetails = React.useCallback(async () => {
+    if (projectDeleted) {
+      setLoading(false);
+      return;
+    }
     setLoading(true);
     setError(null);
     try {
@@ -76,11 +81,13 @@ function ProjectDetails() {
     } finally {
       setLoading(false);
     }
-  }, [projectId]);
+  }, [projectId, projectDeleted]);
 
   React.useEffect(() => {
-    fetchProjectDetails();
-  }, [fetchProjectDetails]);
+    if (!projectDeleted) {
+      fetchProjectDetails();
+    }
+  }, [fetchProjectDetails, projectDeleted]);
 
   React.useEffect(() => {
     if (project && currentUserId) {
@@ -316,7 +323,8 @@ function ProjectDetails() {
       }
 
       alert("Projeto excluído com sucesso!");
-      navigate("/profile", { state: { userId: currentUserId } });
+      setProjectDeleted(true);
+      navigate(`/profile?userId=${currentUserId}`);
     } catch (err) {
       console.error("Erro ao excluir projeto:", err);
       alert(`Erro ao excluir o projeto: ${err.message}`);
@@ -361,6 +369,14 @@ function ProjectDetails() {
         return "Não especificado";
     }
   };
+
+  if (projectDeleted) {
+    return (
+      <div className={styles.loadingMessage}>
+        Projeto excluído. Redirecionando...
+      </div>
+    );
+  }
 
   if (loading) {
     return (
@@ -410,20 +426,18 @@ function ProjectDetails() {
         <div className={styles.projectImageSection}>
           {project.imageUrls && project.imageUrls.length > 0 ? (
             <Slider {...settings}>
-              {project.imageUrls.map((imageUrl, index) => (
-                <div key={index}>
+              {project.imageUrls.map((url, index) => (
+                <div key={index} className={styles.imageWrapper}>
                   <img
-                    src={imageUrl}
-                    alt={`${project.name} - Imagem ${index + 1}`}
+                    src={url}
+                    alt={`Imagem ${index + 1}`}
                     className={styles.projectImage}
                   />
                 </div>
               ))}
             </Slider>
           ) : (
-            <div className={styles.noImagePlaceholder}>
-              Sem imagem disponível
-            </div>
+            <p>Sem imagens disponíveis para este projeto.</p>
           )}
         </div>
 

@@ -21,15 +21,26 @@ function Profile({ isLoggedIn }) {
     name: "",
     description: "",
     tutorial: "",
-    imageUrl: "",
     ageRange: "",
     materialsList: "",
     schoolId: null,
   });
 
+  const [selectedProjectFile, setSelectedProjectFile] = React.useState(null);
+  const [previewProjectImage, setPreviewProjectImage] = React.useState(null);
+  const [uploadingProjectImage, setUploadingProjectImage] =
+    React.useState(false);
+  const [projectImageUploadError, setProjectImageUploadError] =
+    React.useState(null);
+
   const [projects, setProjects] = React.useState([]);
   const [projectsLoading, setProjectsLoading] = React.useState(true);
   const [projectsError, setProjectsError] = React.useState(null);
+
+  const [selectedFile, setSelectedFile] = React.useState(null);
+  const [previewImage, setPreviewImage] = React.useState(null);
+  const [uploadingImage, setUploadingImage] = React.useState(null);
+  const [uploadError, setUploadError] = React.useState(null);
 
   React.useEffect(() => {
     if (!isLoggedIn) {
@@ -62,6 +73,11 @@ function Profile({ isLoggedIn }) {
           ...prevProject,
           schoolId: data?.schoolId,
         }));
+        if (data.profilePicture) {
+          setPreviewImage(`https://localhost:7253${data.profilePicture}`);
+        } else {
+          setPreviewImage(null);
+        }
       } catch (err) {
         setError(err.message);
         setLoading(false);
@@ -98,6 +114,83 @@ function Profile({ isLoggedIn }) {
 
     fetchProjects();
   }, [user]);
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setSelectedFile(file);
+      setPreviewImage(URL.createObjectURL(file));
+      setUploadError(null);
+    } else {
+      setSelectedFile(null);
+      if (user?.profilePicture) {
+        setPreviewImage(`https://localhost:7253${user.profilePicture}`);
+      } else {
+        setPreviewImage(null);
+      }
+    }
+  };
+
+  const handleProjectFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setSelectedProjectFile(file);
+      setPreviewProjectImage(URL.createObjectURL(file));
+      setProjectImageUploadError(null);
+    } else {
+      setSelectedProjectFile(null);
+      setPreviewProjectImage(null);
+      setProjectImageUploadError("Nenhuma imagem selecionada para o projeto.");
+    }
+  };
+
+  const handleUploadProfilePicture = async () => {
+    if (!selectedFile) {
+      setUploadError("Por favor, selecione um arquivo de imagem.");
+      return;
+    }
+
+    if (!user?.userId) {
+      setUploadError("ID do usuário não disponível para upload.");
+      return;
+    }
+
+    setUploadingImage(true);
+    setUploadError(null);
+
+    const formData = new FormData();
+    formData.append("File", selectedFile);
+
+    try {
+      const response = await fetch(
+        `https://localhost:7253/api/User/${user.userId}/upload-profile-picture`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          `Erro ao fazer upload da imagem: ${response.statusText} - ${
+            errorData?.message || errorData?.error || "Erro desconhecido"
+          }`
+        );
+      }
+
+      const data = await response.json();
+      setUser((prevUser) => ({
+        ...prevUser,
+        profilePicture: data.profilePictureUrl,
+      }));
+      setSelectedFile(null);
+    } catch (err) {
+      setUploadError(err.message);
+    } finally {
+      setUploadingImage(false);
+    }
+  };
 
   const handleEditProfileClick = () => {
     navigate("/edit-profile");
@@ -177,6 +270,17 @@ function Profile({ isLoggedIn }) {
 
   const openPostProjectModal = () => {
     setIsPostProjectModalOpen(true);
+    setNewProject({
+      name: "",
+      description: "",
+      tutorial: "",
+      ageRange: "",
+      materialsList: "",
+      schoolId: user?.schoolId || null,
+    });
+    setSelectedProjectFile(null);
+    setPreviewProjectImage(null);
+    setProjectImageUploadError(null);
   };
 
   const closePostProjectModal = () => {
@@ -185,11 +289,13 @@ function Profile({ isLoggedIn }) {
       name: "",
       description: "",
       tutorial: "",
-      imageUrl: "",
       ageRange: "",
       materialsList: "",
       schoolId: user?.schoolId || null,
     });
+    setSelectedProjectFile(null);
+    setPreviewProjectImage(null);
+    setProjectImageUploadError(null);
     setError(null);
   };
 
@@ -203,23 +309,40 @@ function Profile({ isLoggedIn }) {
 
   const handleSaveNewProject = async () => {
     setError(null);
+    setProjectImageUploadError(null);
+
+    if (!selectedProjectFile) {
+      setProjectImageUploadError(
+        "Por favor, selecione uma imagem para o projeto."
+      );
+      return;
+    }
+
+    if (!user?.userId) {
+      setError("ID do usuário não disponível para criar projeto.");
+      return;
+    }
+
+    setUploadingProjectImage(true);
+
+    const formData = new FormData();
+    formData.append("File", selectedProjectFile);
+    formData.append("Name", newProject.name);
+    formData.append("Description", newProject.description);
+    formData.append("Tutorial", newProject.tutorial);
+    formData.append("AgeRange", newProject.ageRange.toString());
+    formData.append("MaterialsList", newProject.materialsList);
+
+    for (let pair of formData.entries()) {
+      console.log(`${pair[0]}:`, pair[1]);
+    }
 
     try {
       const response = await fetch(
-        `https://localhost:7253/api/Project?userId=${userIdFromNavigation}`,
+        `https://localhost:7253/api/Project/upload-project-picture?userId=${userIdFromNavigation}`,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: newProject.name,
-            description: newProject.description,
-            tutorial: newProject.tutorial,
-            imageUrls: [newProject.imageUrl],
-            ageRange: parseInt(newProject.ageRange),
-            materialsList: newProject.materialsList,
-          }),
+          body: formData,
         }
       );
 
@@ -239,38 +362,64 @@ function Profile({ isLoggedIn }) {
           .then((data) => setProjects(data))
           .catch((err) => setProjectsError(err.message));
       } else {
-        const errorData = await response.json();
-        setError(
-          `Erro ao criar projeto: ${response.statusText} - ${
-            errorData?.message || errorData?.error || "Erro desconhecido"
-          }`
-        );
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          try {
+            const errorData = await response.json();
+            setError(
+              `Erro ao criar projeto: ${response.statusText} - ${
+                errorData?.message ||
+                errorData?.error ||
+                JSON.stringify(errorData) ||
+                "Erro desconhecido"
+              }`
+            );
+          } catch (error) {
+            const errorText = await error.text();
+            setError(
+              `Erro ao criar projeto: ${response.statusText} - Não foi possível analisar a resposta de erro como JSON. Resposta bruta: ${errorText}`
+            );
+          }
+        } else {
+          const errorText = await response.text();
+          setError(
+            `Erro ao criar projeto: ${response.statusText} - ${
+              errorText || "Erro desconhecido (resposta não é JSON)"
+            }`
+          );
+        }
       }
     } catch (err) {
       setError(`Erro ao comunicar com o servidor: ${err.message}`);
+    } finally {
+      setUploadingProjectImage(false);
     }
   };
 
+  const slidesToShowMain = 3;
+
   const settings = {
     dots: true,
-    infinite: true,
+    infinite: projects.length >= slidesToShowMain,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: slidesToShowMain,
     slidesToScroll: 1,
     arrows: true,
     responsive: [
       {
         breakpoint: 992,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: Math.min(projects.length, 2),
           slidesToScroll: 1,
+          infinite: projects.length >= 2,
         },
       },
       {
         breakpoint: 768,
         settings: {
-          slidesToShow: 1,
+          slidesToShow: Math.min(projects.length, 1),
           slidesToScroll: 1,
+          infinite: projects.length >= 1,
         },
       },
     ],
@@ -291,13 +440,41 @@ function Profile({ isLoggedIn }) {
   return (
     <div className={styles.profileContainer}>
       <div className={styles.profileHeader}>
-        <div className={styles.profileImagePlaceholder}>
-          {user.profilePicture && (
+        <div className={styles.profileImageContainer}>
+          {" "}
+          {previewImage ? (
             <img
-              src={user.profilePicture}
+              src={previewImage}
               alt="Profile"
               className={styles.profileImage}
             />
+          ) : (
+            <div className={styles.profileImagePlaceholder}>
+              <span>Sem Foto</span>
+            </div>
+          )}
+          <input
+            type="file"
+            id="profilePictureInput"
+            name="profilePicture"
+            accept="image/*"
+            onChange={handleFileChange}
+            className={styles.fileInput}
+          />
+          <label htmlFor="profilePictureInput" className={styles.uploadButton}>
+            Trocar Foto
+          </label>
+          {selectedFile && (
+            <button
+              className={styles.uploadNowButton}
+              onClick={handleUploadProfilePicture}
+              disabled={uploadingImage}
+            >
+              {uploadingImage ? "Enviando..." : "Enviar Foto"}
+            </button>
+          )}
+          {uploadError && (
+            <p className={styles.uploadErrorMessage}>{uploadError}</p>
           )}
         </div>
         <div className={styles.profileInfo}>
@@ -400,7 +577,12 @@ function Profile({ isLoggedIn }) {
                   >
                     {project.imageUrls && project.imageUrls.length > 0 && (
                       <img
-                        src={project.imageUrls[0].url}
+                        src={
+                          project.imageUrls[0].url.startsWith("http://") ||
+                          project.imageUrls[0].url.startsWith("https://")
+                            ? project.imageUrls[0].url
+                            : `https://localhost:7253${project.imageUrls[0].url}`
+                        }
                         alt={project.name}
                         className={styles.projectImage}
                       />
@@ -522,6 +704,11 @@ function Profile({ isLoggedIn }) {
           <div className={styles.modal}>
             <h3>Postar Novo Projeto</h3>
             {error && <p className={styles.errorMessage}>{error}</p>}
+            {projectImageUploadError && (
+              <p className={styles.uploadErrorMessage}>
+                {projectImageUploadError}
+              </p>
+            )}
             <div className={styles.modalForm}>
               <label htmlFor="name">Nome do Projeto:</label>
               <input
@@ -549,17 +736,28 @@ function Profile({ isLoggedIn }) {
                 onChange={handleNewProjectChange}
               />
 
-              <label htmlFor="imageUrl">URL da Imagem:</label>
+              <label htmlFor="projectImageInput">Imagem do Projeto:</label>
               <input
-                type="text"
-                id="imageUrl"
-                name="imageUrl"
-                value={newProject.imageUrl}
-                onChange={handleNewProjectChange}
+                type="file"
+                id="projectImageInput"
+                name="projectImage"
+                accept="image/*"
+                onChange={handleProjectFileChange}
+                className={styles.fileInput}
               />
-              <p className={styles.inputHelp}>
-                Cole aqui a URL da imagem já hospedada online.
-              </p>
+              <label
+                htmlFor="projectImageInput"
+                className={styles.uploadButton}
+              >
+                {selectedProjectFile ? "Trocar Imagem" : "Selecionar Imagem"}
+              </label>
+              {previewProjectImage && (
+                <img
+                  src={previewProjectImage}
+                  alt="Pré-visualização do Projeto"
+                  className={styles.previewProjectImage}
+                />
+              )}
 
               <label htmlFor="ageRange">Faixa Etária:</label>
               <select
@@ -587,8 +785,9 @@ function Profile({ isLoggedIn }) {
                 <button
                   className={styles.modalButton}
                   onClick={handleSaveNewProject}
+                  disabled={uploadingProjectImage}
                 >
-                  Salvar Projeto
+                  {uploadingProjectImage ? "Salvando..." : "Salvar Projeto"}
                 </button>
                 <button
                   className={styles.modalButton}

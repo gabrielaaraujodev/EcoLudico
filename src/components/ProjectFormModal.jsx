@@ -14,6 +14,7 @@ function ProjectFormModal({
   const [ageRange, setAgeRange] = React.useState(1);
   const [materialsList, setMaterialsList] = React.useState("");
   const [imageUrls, setImageUrls] = React.useState([]);
+  const [imageFile, setImageFile] = React.useState(null);
 
   const API_BASE_URL = "https://localhost:7253";
 
@@ -25,6 +26,7 @@ function ProjectFormModal({
       setAgeRange(initialProjectData.ageRange || 1);
       setMaterialsList(initialProjectData.materialsList || "");
       setImageUrls(initialProjectData.imageUrls || []);
+      setImageFile(null);
     } else if (isOpen && !initialProjectData) {
       setName("");
       setDescription("");
@@ -32,6 +34,7 @@ function ProjectFormModal({
       setAgeRange(1);
       setMaterialsList("");
       setImageUrls([]);
+      setImageFile(null);
     }
   }, [isOpen, initialProjectData]);
 
@@ -47,39 +50,64 @@ function ProjectFormModal({
       return;
     }
 
-    const projectData = {
-      name,
-      description,
-      tutorial,
-      ageRange: parseInt(ageRange),
-      materialsList,
-      imageUrls,
-    };
-
     try {
       let response;
+
       if (initialProjectData && initialProjectData.projectId) {
         response = await fetch(
           `${API_BASE_URL}/api/Project/${initialProjectData.projectId}?userId=${userId}`,
           {
             method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               projectId: initialProjectData.projectId,
-              ...projectData,
+              name,
+              description,
+              tutorial,
+              ageRange: parseInt(ageRange),
+              materialsList,
+              imageUrls,
             }),
           }
         );
       } else {
-        response = await fetch(`${API_BASE_URL}/api/User/${userId}/projects`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(projectData),
-        });
+        if (imageFile) {
+          const formData = new FormData();
+          formData.append("Name", name);
+          formData.append("Description", description);
+          formData.append("Tutorial", tutorial);
+          formData.append("AgeRange", parseInt(ageRange));
+          formData.append("MaterialsList", materialsList);
+          formData.append("File", imageFile);
+
+          response = await fetch(
+            `${API_BASE_URL}/api/Project/upload-project-picture?userId=${userId}`,
+            {
+              method: "POST",
+              body: formData,
+            }
+          );
+        } else {
+          const projectData = {
+            name,
+            description,
+            tutorial,
+            ageRange: parseInt(ageRange),
+            materialsList,
+            imageUrls,
+          };
+
+          response = await fetch(
+            `${API_BASE_URL}/api/Project?userId=${userId}`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(projectData),
+            }
+          );
+        }
       }
 
       if (!response.ok) {
@@ -156,37 +184,54 @@ function ProjectFormModal({
               rows="3"
             ></textarea>
           </div>
+
           <div className={styles.formGroup}>
-            <label htmlFor="imageUrls">
-              URLs das Imagens (separadas por vírgula):
-            </label>
+            <label htmlFor="newImageFile">Adicionar nova imagem:</label>
             <input
-              type="text"
-              id="imageUrls"
-              value={imageUrls.join(", ")}
-              onChange={(e) =>
-                setImageUrls(
-                  e.target.value
-                    .split(",")
-                    .map((url) => url.trim())
-                    .filter((url) => url !== "")
-                )
-              }
-              placeholder="Ex: url1.jpg, url2.png"
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                const file = e.target.files[0];
+                if (file) {
+                  setImageFile(file);
+                  const reader = new FileReader();
+                  reader.onloadend = () => {
+                    setImageUrls((prev) => [...prev, reader.result]);
+                  };
+                  reader.readAsDataURL(file);
+                }
+              }}
             />
-            {imageUrls.length > 0 && (
-              <div className={styles.imagePreviewContainer}>
-                {imageUrls.map((url, index) => (
+          </div>
+
+          {imageUrls.length > 0 && (
+            <div className={styles.imagePreviewContainer}>
+              {imageUrls.map((url, index) => (
+                <div key={index} className={styles.imageItem}>
                   <img
-                    key={index}
                     src={url}
                     alt={`Preview ${index}`}
                     className={styles.imagePreview}
                   />
-                ))}
-              </div>
-            )}
-          </div>
+                  <button
+                    type="button"
+                    className={styles.removeButton}
+                    onClick={() => {
+                      setImageUrls((prev) =>
+                        prev.filter((_, i) => i !== index)
+                      );
+                      if (index === imageUrls.length - 1 && imageFile) {
+                        setImageFile(null);
+                      }
+                    }}
+                  >
+                    Remover
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+
           <div className={styles.formActions}>
             <button type="submit">
               {initialProjectData ? "Atualizar" : "Adicionar"}

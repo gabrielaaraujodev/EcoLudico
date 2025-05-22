@@ -1,8 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "../styles/HeaderLogado.module.css";
 import logo from "../images/logo.svg";
 
 function HeaderLogado({ onLogout, currentUserId }) {
+  const navigate = useNavigate();
+
+  const handleLogoutClick = () => {
+    onLogout();
+    navigate("/signin");
+  };
+
   return (
     <header className={styles.header}>
       <nav>
@@ -33,7 +40,7 @@ function HeaderLogado({ onLogout, currentUserId }) {
             </Link>
           </li>
           <li>
-            <button className={styles.logoutButton} onClick={onLogout}>
+            <button className={styles.logoutButton} onClick={handleLogoutClick}>
               Sair
             </button>
           </li>

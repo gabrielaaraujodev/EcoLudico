@@ -73,7 +73,6 @@ function App() {
             <Profile isLoggedIn={isLoggedIn} currentUserId={currentUserId} />
           }
         />
-
         <Route
           path="/project/:projectId"
           element={<ProjectDetails currentUserId={currentUserId} />}
