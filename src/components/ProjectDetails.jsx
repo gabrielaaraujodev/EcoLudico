@@ -328,7 +328,7 @@ function ProjectDetails() {
 
       alert("Projeto excluído com sucesso!");
       setProjectDeleted(true);
-      navigate(`/profile?userId=${currentUserId}`);
+      navigate(`/profile`, { state: { currentUserId: currentUserId } });
     } catch (err) {
       console.error("Erro ao excluir projeto:", err);
       alert(`Erro ao excluir o projeto: ${err.message}`);
