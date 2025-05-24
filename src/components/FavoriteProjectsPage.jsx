@@ -79,7 +79,7 @@ function FavoriteProjectsPage() {
               <h3>{project.name}</h3>
               {project.imageUrls && project.imageUrls.length > 0 && (
                 <img
-                  src={project.imageUrls[0]}
+                  src={`${API_BASE_URL}${project.imageUrls[0]}`}
                   alt={project.name}
                   className={styles.projectImage}
                 />

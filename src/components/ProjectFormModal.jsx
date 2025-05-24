@@ -13,8 +13,7 @@ function ProjectFormModal({
   const [tutorial, setTutorial] = React.useState("");
   const [ageRange, setAgeRange] = React.useState(1);
   const [materialsList, setMaterialsList] = React.useState("");
-  const [imageUrls, setImageUrls] = React.useState([]);
-  const [imageFile, setImageFile] = React.useState(null);
+  const [images, setImages] = React.useState([]);
 
   const API_BASE_URL = "https://localhost:7253";
 
@@ -25,18 +24,25 @@ function ProjectFormModal({
       setTutorial(initialProjectData.tutorial || "");
       setAgeRange(initialProjectData.ageRange || 1);
       setMaterialsList(initialProjectData.materialsList || "");
-      setImageUrls(initialProjectData.imageUrls || []);
-      setImageFile(null);
+
+      const existingImages = (initialProjectData.imageUrls || []).map(
+        (url, index) => ({
+          id: `existing-${initialProjectData.projectId}-${index}`,
+          url: `${API_BASE_URL}${url}`,
+          file: null,
+          isNew: false,
+        })
+      );
+      setImages(existingImages);
     } else if (isOpen && !initialProjectData) {
       setName("");
       setDescription("");
       setTutorial("");
       setAgeRange(1);
       setMaterialsList("");
-      setImageUrls([]);
-      setImageFile(null);
+      setImages([]);
     }
-  }, [isOpen, initialProjectData]);
+  }, [isOpen, initialProjectData, API_BASE_URL]);
 
   if (!isOpen) return null;
 
@@ -51,40 +57,104 @@ function ProjectFormModal({
     }
 
     try {
-      let response;
+      let projectResponse;
+      let imagesResponse;
 
       if (initialProjectData && initialProjectData.projectId) {
-        response = await fetch(
+        const projectData = {
+          projectId: initialProjectData.projectId,
+          name,
+          description,
+          tutorial,
+          ageRange: parseInt(ageRange),
+          materialsList,
+        };
+
+        projectResponse = await fetch(
           `${API_BASE_URL}/api/Project/${initialProjectData.projectId}?userId=${userId}`,
           {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              projectId: initialProjectData.projectId,
-              name,
-              description,
-              tutorial,
-              ageRange: parseInt(ageRange),
-              materialsList,
-              imageUrls,
-            }),
+            body: JSON.stringify(projectData),
           }
         );
-      } else {
-        if (imageFile) {
-          const formData = new FormData();
-          formData.append("Name", name);
-          formData.append("Description", description);
-          formData.append("Tutorial", tutorial);
-          formData.append("AgeRange", parseInt(ageRange));
-          formData.append("MaterialsList", materialsList);
-          formData.append("File", imageFile);
 
-          response = await fetch(
+        if (!projectResponse.ok) {
+          const errorData = await projectResponse.json();
+          throw new Error(
+            `Erro ao atualizar dados do projeto: ${
+              projectResponse.status
+            } - ${JSON.stringify(errorData.errors || errorData)}`
+          );
+        }
+
+        const imagesFormData = new FormData();
+
+        const existingImageUrlsToKeep = images
+          .filter((img) => !img.isNew && img.url)
+          .map((img) =>
+            img.url.replace(/^\/+/, "").replace(/^https?:\/\/[^/]+\//, "")
+          );
+
+        existingImageUrlsToKeep.forEach((url) => {
+          console.log("Adicionando KeepImageUrls ao FormData:", url);
+          imagesFormData.append("KeepImageUrls", url);
+        });
+
+        images
+          .filter((img) => img.isNew && img.file)
+          .forEach((img) => {
+            console.log("Adicionando NewFile ao FormData:", img.file.name);
+            imagesFormData.append("NewFiles", img.file);
+          });
+
+        if (
+          imagesFormData.getAll("NewFiles").length > 0 ||
+          imagesFormData.getAll("KeepImageUrls").length > 0
+        ) {
+          imagesResponse = await fetch(
+            `${API_BASE_URL}/api/Project/${initialProjectData.projectId}/images?userId=${userId}`,
+            {
+              method: "PUT",
+              body: imagesFormData,
+            }
+          );
+
+          if (!imagesResponse.ok) {
+            const errorData = await imagesResponse.json();
+            throw new Error(
+              `Erro ao atualizar imagens: ${
+                imagesResponse.status
+              } - ${JSON.stringify(errorData.errors || errorData)}`
+            );
+          }
+        }
+        const updatedProject = await fetch(
+          `${API_BASE_URL}/api/Project/${initialProjectData.projectId}?userId=${userId}`
+        );
+        if (!updatedProject.ok) {
+          throw new Error("Falha ao recarregar o projeto após atualização.");
+        }
+        const savedProject = await updatedProject.json();
+        onSave(savedProject);
+        onClose();
+      } else {
+        const newImageForCreation = images.find((img) => img.isNew);
+
+        if (newImageForCreation && newImageForCreation.file) {
+          const formDataCreate = new FormData();
+          formDataCreate.append("Name", name);
+          formDataCreate.append("Description", description);
+          formDataCreate.append("Tutorial", tutorial);
+          formDataCreate.append("AgeRange", parseInt(ageRange));
+          formDataCreate.append("MaterialsList", materialsList);
+          formDataCreate.append("File", newImageForCreation.file);
+
+          projectResponse = await fetch(
             `${API_BASE_URL}/api/Project/upload-project-picture?userId=${userId}`,
             {
               method: "POST",
-              body: formData,
+              body: formDataCreate,
             }
           );
         } else {
@@ -94,10 +164,10 @@ function ProjectFormModal({
             tutorial,
             ageRange: parseInt(ageRange),
             materialsList,
-            imageUrls,
+            imageUrls: [],
           };
 
-          response = await fetch(
+          projectResponse = await fetch(
             `${API_BASE_URL}/api/Project?userId=${userId}`,
             {
               method: "POST",
@@ -108,20 +178,20 @@ function ProjectFormModal({
             }
           );
         }
-      }
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          `Erro ao salvar projeto: ${response.status} - ${JSON.stringify(
-            errorData.errors || errorData
-          )}`
-        );
-      }
+        if (!projectResponse.ok) {
+          const errorData = await projectResponse.json();
+          throw new Error(
+            `Erro ao criar projeto: ${
+              projectResponse.status
+            } - ${JSON.stringify(errorData.errors || errorData)}`
+          );
+        }
 
-      const savedProject = await response.json();
-      onSave(savedProject);
-      onClose();
+        const savedProject = await projectResponse.json();
+        onSave(savedProject);
+        onClose();
+      }
     } catch (err) {
       console.error("Erro ao salvar projeto:", err);
       alert(`Erro: ${err.message}`);
@@ -189,14 +259,23 @@ function ProjectFormModal({
             <label htmlFor="newImageFile">Adicionar nova imagem:</label>
             <input
               type="file"
+              id="newImageFile"
               accept="image/*"
               onChange={(e) => {
                 const file = e.target.files[0];
                 if (file) {
-                  setImageFile(file);
                   const reader = new FileReader();
                   reader.onloadend = () => {
-                    setImageUrls((prev) => [...prev, reader.result]);
+                    setImages((prevImages) => [
+                      ...prevImages,
+                      {
+                        id: `new-${Date.now()}-${file.name}`,
+                        url: reader.result,
+                        file: file,
+                        isNew: true,
+                      },
+                    ]);
+                    e.target.value = "";
                   };
                   reader.readAsDataURL(file);
                 }
@@ -204,12 +283,13 @@ function ProjectFormModal({
             />
           </div>
 
-          {imageUrls.length > 0 && (
+          {images.length > 0 && (
             <div className={styles.imagePreviewContainer}>
-              {imageUrls.map((url, index) => (
-                <div key={index} className={styles.imageItem}>
+              {images.map((image, index) => (
+                <div key={image.id} className={styles.imageItem}>
+                  {" "}
                   <img
-                    src={url}
+                    src={image.url}
                     alt={`Preview ${index}`}
                     className={styles.imagePreview}
                   />
@@ -217,12 +297,9 @@ function ProjectFormModal({
                     type="button"
                     className={styles.removeButton}
                     onClick={() => {
-                      setImageUrls((prev) =>
-                        prev.filter((_, i) => i !== index)
+                      setImages((prev) =>
+                        prev.filter((img) => img.id !== image.id)
                       );
-                      if (index === imageUrls.length - 1 && imageFile) {
-                        setImageFile(null);
-                      }
                     }}
                   >
                     Remover

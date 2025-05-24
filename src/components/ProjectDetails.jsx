@@ -132,7 +132,11 @@ function ProjectDetails() {
             },
           }
         );
-        if (response.status === 200 || response.status === 201) {
+        if (
+          response.status === 200 ||
+          response.status === 201 ||
+          response.status === 204
+        ) {
           setIsFavorite(true);
           alert("Projeto adicionado aos favoritos!");
         } else if (response.status === 409) {
@@ -429,7 +433,7 @@ function ProjectDetails() {
               {project.imageUrls.map((url, index) => (
                 <div key={index} className={styles.imageWrapper}>
                   <img
-                    src={url}
+                    src={`${API_BASE_URL}${url}`}
                     alt={`Imagem ${index + 1}`}
                     className={styles.projectImage}
                   />
