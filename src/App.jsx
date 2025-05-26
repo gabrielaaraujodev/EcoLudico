@@ -19,20 +19,37 @@ import Profile from "./components/Profile";
 import ProjectDetails from "./components/ProjectDetails";
 import FavoriteProjectsPage from "./components/FavoriteProjectsPage";
 import ProjectsPage from "./components/ProjectsPage";
+import CollectionPoints from "./components/CollectionPoints";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [currentUserId, setCurrentUserId] = React.useState(null);
+  const [loading, setLoading] = React.useState(true);
 
   const handleLoginSuccess = (userId) => {
     setIsLoggedIn(true);
     setCurrentUserId(userId);
+    sessionStorage.setItem("userId", userId);
   };
 
   const handleLogout = () => {
     setIsLoggedIn(false);
     setCurrentUserId(null);
+    sessionStorage.removeItem("userId");
   };
+
+  React.useEffect(() => {
+    const storedUserId = sessionStorage.getItem("userId");
+    if (storedUserId) {
+      setIsLoggedIn(true);
+      setCurrentUserId(storedUserId);
+    }
+    setLoading(false);
+  }, []);
+
+  if (loading) {
+    return <div>Carregando...</div>;
+  }
 
   return (
     <BrowserRouter>
@@ -84,6 +101,11 @@ function App() {
         <Route
           path="/projetos"
           element={<ProjectsPage currentUserId={currentUserId} />}
+        />
+
+        <Route
+          path="collection-points"
+          element={<CollectionPoints currentUserId={currentUserId} />}
         />
       </Routes>
     </BrowserRouter>

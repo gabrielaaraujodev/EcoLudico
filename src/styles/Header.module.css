@@ -30,7 +30,7 @@
   gap: 4rem;
 }
 
-.links li {
+.links li a {
   color: #71bc68;
   cursor: pointer;
 }

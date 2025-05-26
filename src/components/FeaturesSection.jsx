@@ -6,7 +6,7 @@ import styles from "../styles/FeaturesSection.module.css";
 
 function FeaturesSection() {
   return (
-    <section className={styles.section}>
+    <section className={styles.section} id="featuresSection">
       <div className={styles.container}>
         <div className={styles.title}>
           <p>Passo a passo</p>

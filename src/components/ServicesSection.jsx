@@ -8,7 +8,7 @@ import sReuse from "../images/sReuse.svg";
 function ServicesSection() {
   return (
     <section>
-      <div className={styles.container}>
+      <div className={styles.container} id="servicesSection">
         <h1 className={styles.title}>Serviços Oferecidos</h1>
         <p className={styles.subTitle}>
           Oferecemos uma solução dinâmica e prática para quem busca ter hábitos

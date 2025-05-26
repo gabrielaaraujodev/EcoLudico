@@ -4,7 +4,7 @@ import styles from "../styles/IdeaSection.module.css";
 
 function IdeaSection() {
   return (
-    <section className={styles.section}>
+    <section className={styles.section} id="ideaSection">
       <div className={styles.textContent}>
         <h1>Go Green !</h1>
         <h3>Acreditamos no poder da união para transformar a educação. </h3>

@@ -459,7 +459,7 @@ function Profile({ isLoggedIn }) {
             name="profilePicture"
             accept="image/*"
             onChange={handleFileChange}
-            className={styles.fileInput}
+            className={styles.fileInputProfileImage}
           />
           <label htmlFor="profilePictureInput" className={styles.uploadButton}>
             Trocar Foto

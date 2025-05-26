@@ -4,7 +4,7 @@ import logo from "../images/logo2.svg";
 
 function Footer() {
   return (
-    <footer>
+    <footer id="footer">
       <div className={styles.container}>
         <div className={styles.logoTitulo}>
           <img src={logo} alt="Logo" className={styles.logo} />

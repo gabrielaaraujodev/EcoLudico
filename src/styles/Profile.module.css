@@ -1,45 +1,177 @@
+/* --- ESTILOS GLOBAIS (ASSUMIMOS QUE ESTÃO EM UM ARQUIVO GLOBAL.CSS OU NO TOPO DESTE) --- */
+/* Estes estilos devem ser os mesmos em todo o seu projeto para consistência */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Roboto", sans-serif; /* Fonte principal para o corpo do texto */
+  line-height: 1.6;
+  color: #333; /* Cor padrão do texto */
+  background-color: #f8f8f8; /* Fundo geral mais claro */
+  -webkit-font-smoothing: antialiased;
+  display: flex; /* Para empurrar o footer para baixo, se houver */
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Lato", sans-serif; /* Fonte para títulos */
+  color: #333;
+  margin-bottom: 0.8em;
+  line-height: 1.2;
+}
+
+a {
+  color: #3498db; /* Azul para links */
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  text-decoration: underline;
+  opacity: 0.8;
+}
+
+/* --- Navbar (Menu Superior) --- */
+.navbar {
+  background-color: #2e7d32; /* Seu verde principal */
+  color: white;
+  padding: 15px 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.navbar .logo {
+  font-family: "Lato", sans-serif;
+  font-size: 1.8em;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+}
+
+.navbar .nav-links {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.navbar .nav-links li {
+  margin-left: 25px;
+}
+
+.navbar .nav-links a {
+  font-weight: bold;
+  color: white;
+  padding: 5px 0;
+  position: relative;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); /* Sombra sutil para texto claro */
+}
+
+.navbar .nav-links a::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  background: #3498db; /* Linha azul de destaque no hover */
+  bottom: -5px;
+  left: 0;
+  transition: width 0.3s ease;
+}
+
+.navbar .nav-links a:hover::after {
+  width: 100%;
+}
+
+.navbar .auth-buttons button {
+  background-color: #3498db; /* Azul para botões de ação */
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: bold;
+  margin-left: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.navbar .auth-buttons button:hover {
+  background-color: #2980b9;
+}
+
+/* --- FIM ESTILOS GLOBAIS --- */
+
+/* --- ESTILOS ESPECÍFICOS DA PÁGINA DE PERFIL --- */
 .profileContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
-  background-color: #f4f4f4;
-  font-family: sans-serif;
+  padding: 30px 20px; /* Mais padding superior/inferior */
+  background-color: #f8f8f8; /* Fundo mais claro */
+  flex-grow: 1; /* Garante que o container preencha o espaço restante */
 }
 
-.profileHeader {
+/* --- Cards Gerais (para Perfil, Endereço, Escola, Projetos) --- */
+.profileHeader, /* o header do perfil é um tipo de card */
+.sectionCard,
+.schoolSection,
+.projectsSection {
   background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  margin-bottom: 20px;
-  width: 90%;
-  max-width: 800px;
+  border-radius: 10px; /* Cantos um pouco mais arredondados */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Sombra mais suave e moderna */
+  padding: 25px; /* Mais padding para respiro */
+  margin-bottom: 25px; /* Mais espaço entre os cards */
+  width: 100%; /* Ocupa a largura total do .profileContainer */
+  max-width: 900px; /* Largura máxima para centralizar e não ficar muito largo */
+  transition: transform 0.2s ease-in-out;
+}
+
+.profileHeader:hover,
+.sectionCard:hover,
+.schoolSection:hover,
+.projectsSection:hover {
+  transform: translateY(-3px); /* Efeito de elevação sutil no hover */
+}
+
+/* --- Cabeçalho do Perfil (dentro do .profileHeader) --- */
+.profileHeader {
   display: flex;
   align-items: center;
-  gap: 20px;
-  flex-wrap: wrap;
+  gap: 25px; /* Mais espaço entre a imagem e as informações */
+  flex-wrap: wrap; /* Para responsividade */
 }
 
 .profileImageUploadWrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-right: 20px;
   flex-shrink: 0;
+  position: relative; /* Para posicionar o botão de upload */
 }
 
 .profileImageContainer {
   position: relative;
-  width: 100px;
-  height: 100px;
+  width: 120px; /* Tamanho um pouco maior */
+  height: 120px;
   border-radius: 50%;
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid #007bff;
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+  border: 3px solid #2e7d32; /* Borda verde, combinando com o tema */
+  box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.2); /* Sombra suave do verde */
   flex-shrink: 0;
 }
 
@@ -47,14 +179,15 @@
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background-color: #ddd;
+  background-color: #eee; /* Cor de fundo mais clara */
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #666;
-  font-size: 0.8em;
+  color: #888;
+  font-size: 0.9em;
   text-align: center;
-  line-height: 1.2;
+  line-height: 1.3;
+  padding: 5px; /* Para o texto não grudar nas bordas */
 }
 
 .profileImage {
@@ -63,7 +196,7 @@
   object-fit: cover;
 }
 
-.fileInput {
+.fileInputProfileImage {
   display: none;
 }
 
@@ -72,19 +205,17 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  padding: 5px 0;
-  background-color: rgba(0, 0, 0, 0.6);
+  padding: 8px 0; /* Mais padding */
+  background-color: rgba(0, 0, 0, 0.7); /* Mais escuro para contraste */
   color: white;
   text-align: center;
   cursor: pointer;
-  font-size: 0.75em;
+  font-size: 0.85em; /* Levemente maior */
   opacity: 0;
   transition: opacity 0.3s ease;
   z-index: 1;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-  border-bottom-left-radius: 50px;
-  border-bottom-right-radius: 50px;
+  border-bottom-left-radius: 120px; /* Arredondado para acompanhar a imagem */
+  border-bottom-right-radius: 120px;
 }
 
 .profileImageContainer:hover .uploadButton {
@@ -92,13 +223,13 @@
 }
 
 .uploadNowButton {
-  display: none;
+  display: none; /* Mantenha conforme seu JS controla a exibição */
 }
 
 .uploadErrorMessage {
-  color: #d9534f;
+  color: #e74c3c; /* Vermelho de erro */
   font-size: 0.85em;
-  margin-top: 5px;
+  margin-top: 8px; /* Mais espaço */
   text-align: center;
   width: 100%;
 }
@@ -109,49 +240,48 @@
 
 .userName {
   margin-top: 0;
-  color: #333;
+  color: #2e7d32; /* Verde para o nome de destaque */
+  font-size: 1.8em; /* Um pouco maior */
+  font-weight: 700; /* Mais bold */
+  margin-bottom: 5px;
 }
 
 .userEmail,
 .userType,
 .userDateBirth {
-  color: #666;
-  font-size: 0.9em;
-  margin-bottom: 5px;
+  color: #555; /* Cinza um pouco mais escuro para melhor legibilidade */
+  font-size: 1em; /* Tamanho normal do texto */
+  margin-bottom: 5px; /* Espaço entre as linhas */
 }
 
 .editProfileButton {
-  background-color: #007bff;
+  background-color: #3498db; /* Azul para "Editar Perfil" */
   color: white;
   border: none;
-  padding: 10px 15px;
+  padding: 10px 20px; /* Mais padding */
   border-radius: 5px;
   cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s ease;
+  font-size: 0.95em;
+  transition: all 0.3s ease;
+  align-self: flex-start; /* Alinha o botão ao topo da seção de info */
 }
 
 .editProfileButton:hover {
-  background-color: #0056b3;
+  background-color: #2980b9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.sectionCard,
-.schoolSection {
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  margin-bottom: 20px;
-  width: 90%;
-  max-width: 800px;
-}
-
+/* --- Seções de Informação (Endereço, Escola, Projetos) --- */
 .sectionCard h3,
-.schoolSection h3 {
+.schoolSection h3,
+.projectsSection h3 {
   margin-top: 0;
   color: #333;
   margin-bottom: 15px;
-  font-size: 1.2em;
+  font-size: 1.4em; /* Títulos de seção um pouco maiores */
+  font-weight: 600;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #eee; /* Linha divisória suave */
 }
 
 .schoolHeader {
@@ -159,118 +289,115 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
+  flex-wrap: wrap; /* Para responsividade */
 }
 
 .editSchoolButton {
-  background-color: #28a745;
+  background-color: #2e7d32; /* Verde para "Editar Escola" */
   color: white;
   border: none;
-  padding: 8px 12px;
+  padding: 10px 20px; /* Mais padding */
   border-radius: 5px;
   cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s ease;
+  font-size: 0.95em;
+  transition: all 0.3s ease;
 }
 
 .editSchoolButton:hover {
-  background-color: #1e7e34;
+  background-color: #246a2a;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .schoolInfo p {
   color: #555;
   margin-bottom: 8px;
+  line-height: 1.5;
 }
 
 .projectsSection {
-  width: 90%;
-  max-width: 800px;
-  margin-bottom: 20px;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  padding: 15px;
-  display: block;
-}
-
-.projectsSection h3 {
-  margin-top: 0;
-  font-size: 20px;
-  color: #333;
-  margin-bottom: 15px;
+  display: block; /* Garante que a seção seja um bloco */
+  text-align: center; /* Centraliza o botão e texto "Nenhum projeto" */
 }
 
 .postProjectButton {
-  background-color: #007bff;
+  background-color: #3498db; /* Azul para "Postar Novo Projeto" */
   color: white;
   border: none;
-  padding: 8px 12px;
-  border-radius: 5px;
+  padding: 12px 25px; /* Mais padding para destaque */
+  border-radius: 8px; /* Cantos mais arredondados */
   cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s ease;
-  margin-bottom: 15px;
+  font-size: 1em;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  margin-bottom: 20px; /* Mais espaço abaixo do botão */
 }
 
 .postProjectButton:hover {
-  background-color: #0056b3;
+  background-color: #2980b9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
 }
 
+/* --- Slick Carousel Styling (Ajustes para um visual mais clean) --- */
 .slickCarouselContainer {
   margin: 20px 0;
-  padding: 0 30px;
+  padding: 0 40px; /* Aumentar padding para as setas não ficarem muito na borda */
   overflow: hidden;
 }
 
 .carouselItem {
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
+  background-color: #fdfdfd; /* Fundo do item mais claro */
+  border: 1px solid #eee; /* Borda mais suave */
   border-radius: 8px;
-  padding: 15px;
-  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.05);
-  text-align: center;
+  padding: 20px; /* Mais padding */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Sombra mais sutil */
+  text-align: left; /* Alinhar texto à esquerda para descrição */
   display: flex;
   flex-direction: column;
-  align-items: center;
-  min-width: 250px;
+  align-items: flex-start; /* Alinhar itens ao início */
+  min-width: 280px; /* Largura mínima um pouco maior */
+  height: auto; /* Deixa a altura se ajustar ao conteúdo */
   box-sizing: border-box;
-  height: 100%;
 }
 
 :global(.slick-slide) {
-  padding: 0 10px;
+  padding: 0 10px; /* Espaço entre os slides */
   box-sizing: border-box;
 }
 
 :global(.slick-list) {
-  margin: 0 -10px;
+  margin: 0 -10px; /* Compensa o padding do slide */
 }
 
 .projectImage {
   width: 100%;
-  height: 150px;
+  height: 180px; /* Altura um pouco maior para a imagem */
   border-radius: 6px;
-  margin-bottom: 10px;
+  margin-bottom: 15px; /* Mais espaço */
   object-fit: cover;
 }
 
 .projectName {
-  font-size: 1.1em;
-  margin-bottom: 5px;
-  color: #333;
+  font-size: 1.2em;
+  margin-bottom: 8px;
+  color: #2e7d32; /* Nome do projeto em verde */
+  font-weight: 600;
 }
 
 .projectDescription {
-  font-size: 0.9em;
+  font-size: 0.95em;
   color: #666;
   flex-grow: 1;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 4; /* Mostrar mais linhas da descrição */
   -webkit-box-orient: vertical;
-  line-clamp: 3;
+  line-clamp: 4;
+  margin-bottom: 10px; /* Espaço antes de botões/links do projeto */
 }
 
+/* --- Slick Carousel Navigation (Setas e Pontos) --- */
 :global(.slick-prev),
 :global(.slick-next) {
   font-size: 0;
@@ -283,25 +410,33 @@
   color: transparent;
   border: none;
   outline: none;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(
+    46,
+    125,
+    50,
+    0.8
+  ); /* Fundo verde escuro para as setas */
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 45px; /* Tamanho um pouco maior */
+  height: 45px;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 10;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 :global(.slick-prev):hover,
 :global(.slick-next):hover {
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(46, 125, 50, 1); /* Verde mais sólido no hover */
+  transform: translateY(-50%) scale(1.05); /* Efeito de scale */
 }
 
 :global(.slick-prev)::before,
 :global(.slick-next)::before {
-  font-family: "slick";
-  font-size: 20px;
+  font-family: "slick"; /* Garanta que a fonte 'slick' esteja carregada ou use ícones SVG/Font Awesome */
+  font-size: 24px; /* Setas maiores */
   line-height: 1;
   color: white;
   -webkit-font-smoothing: antialiased;
@@ -317,15 +452,15 @@
 }
 
 :global(.slick-prev) {
-  left: 0px;
+  left: 5px; /* Mais afastado da borda */
 }
 
 :global(.slick-next) {
-  right: 0px;
+  right: 5px; /* Mais afastado da borda */
 }
 
 :global(.slick-dots) {
-  bottom: -40px;
+  bottom: -35px; /* Posicionamento ajustado */
   padding: 0;
   margin: 0;
   list-style: none;
@@ -336,9 +471,9 @@
 :global(.slick-dots li) {
   position: relative;
   display: inline-block;
-  width: 20px;
-  height: 20px;
-  margin: 0 5px;
+  width: 18px; /* Tamanho do ponto */
+  height: 18px;
+  margin: 0 4px;
   padding: 0;
   cursor: pointer;
 }
@@ -347,8 +482,8 @@
   font-size: 0;
   line-height: 0;
   display: block;
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   padding: 5px;
   cursor: pointer;
   color: transparent;
@@ -359,13 +494,13 @@
 
 :global(.slick-dots li button:before) {
   font-family: "slick";
-  font-size: 10px;
-  line-height: 20px;
+  font-size: 12px; /* Tamanho do ponto */
+  line-height: 18px;
   position: absolute;
   top: 0;
   left: 0;
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   content: "•";
   text-align: center;
   color: #bbb;
@@ -375,45 +510,61 @@
 }
 
 :global(.slick-dots li.slick-active button:before) {
-  color: #007bff;
+  color: #2e7d32; /* Ponto ativo em verde */
   opacity: 1;
 }
 
+/* --- Responsividade da Página de Perfil --- */
 @media (max-width: 768px) {
   .profileHeader {
     flex-direction: column;
+    align-items: center; /* Centraliza itens na coluna */
     text-align: center;
-    gap: 10px;
+    gap: 20px;
   }
-  .profileImagePlaceholder {
-    margin-bottom: 10px;
+  .profileImageUploadWrapper {
+    margin-right: 0;
+    margin-bottom: 0; /* Já centralizado pelo flex do parent */
+    width: auto; /* Ajusta a largura */
+  }
+  .profileInfo {
+    text-align: center; /* Centraliza texto das informações */
+    width: 100%;
   }
   .editProfileButton {
     width: 100%;
+    margin-top: 15px; /* Espaço para o botão */
   }
   .schoolHeader {
     flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
+    align-items: center; /* Centraliza na coluna */
+    gap: 15px;
   }
   .editSchoolButton {
     width: 100%;
   }
-
-  .profileImageUploadWrapper {
-    margin-right: 0;
-    margin-bottom: 15px;
-    width: 100%;
+  .slickCarouselContainer {
+    padding: 0 20px; /* Reduzir padding para as setas */
+  }
+  :global(.slick-prev),
+  :global(.slick-next) {
+    width: 35px;
+    height: 35px;
+  }
+  :global(.slick-prev)::before,
+  :global(.slick-next)::before {
+    font-size: 20px;
   }
 }
 
+/* --- Modal (Estilo mantido e ajustado para a nova paleta/tipografia) --- */
 .modalOverlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.6); /* Fundo mais escuro */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -422,91 +573,89 @@
 
 .modal {
   background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  padding: 20px;
+  border-radius: 10px; /* Cantos arredondados */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25); /* Sombra mais profunda */
+  padding: 30px; /* Mais padding */
   width: 90%;
-  max-width: 500px;
+  max-width: 550px; /* Um pouco mais largo */
 }
 
 .modal h3 {
   color: #333;
   margin-top: 0;
-  margin-bottom: 15px;
-  font-size: 1.5em;
+  margin-bottom: 20px; /* Mais espaço */
+  font-size: 1.6em; /* Um pouco maior */
+  font-family: "Lato", sans-serif;
+  font-weight: 600;
+  text-align: center;
 }
 
 .modalForm label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 8px; /* Mais espaço */
   color: #555;
-  font-size: 0.9em;
+  font-size: 0.95em; /* Levemente maior */
+  font-weight: 500;
 }
 
 .modalForm input[type="text"],
 .modalForm textarea,
 .modalForm select {
   width: 100%;
-  padding: 8px;
-  margin-bottom: 15px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-sizing: border-box;
+  padding: 12px; /* Mais padding */
+  border-radius: 6px; /* Cantos arredondados */
+  border: 1px solid #ccc;
   font-size: 1em;
+  margin-bottom: 20px; /* Mais espaço */
+  font-family: "Roboto", sans-serif;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.modalForm textarea {
-  resize: vertical;
-  min-height: 100px;
+.modalForm input:focus,
+.modalForm textarea:focus,
+.modalForm select:focus {
+  outline: none;
+  border-color: #3498db; /* Azul no foco */
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+.modalForm .button-group {
+  display: flex;
+  justify-content: flex-end; /* Alinha botões à direita */
+  gap: 10px; /* Espaço entre os botões */
+  margin-top: 20px;
+}
+
+.modalForm button {
+  background-color: #3498db; /* Azul para "Salvar" */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.modalForm button:hover {
+  background-color: #2980b9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.modalForm .cancel-button {
+  background-color: #95a5a6; /* Cinza para "Cancelar" */
+}
+
+.modalForm .cancel-button:hover {
+  background-color: #7f8c8d;
+}
+
+.modalForm img {
+  max-width: 50%;
 }
 
 .modalButtonContainer {
   display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-}
-
-.modalButton {
-  background-color: #5cb85c;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1em;
-  transition: background-color 0.3s ease;
-}
-
-.modalButton:hover {
-  background-color: #4cae4c;
-}
-
-.modalButton:last-child {
-  background-color: #d9534f;
-}
-
-.modalButton:last-child:hover {
-  background-color: #c9302c;
-}
-
-.errorMessage {
-  color: #d9534f;
-  margin-bottom: 10px;
-  font-size: 0.9em;
-}
-
-.inputHelp {
-  color: #777;
-  font-size: 0.8em;
-  margin-top: -10px;
-  margin-bottom: 10px;
-}
-
-.previewProjectImage {
-  max-width: 100%;
-  height: auto;
-  margin-top: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  display: block;
+  gap: 5px;
 }

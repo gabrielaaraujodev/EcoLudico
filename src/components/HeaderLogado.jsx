@@ -15,7 +15,7 @@ function HeaderLogado({ onLogout, currentUserId }) {
       <nav>
         <ul>
           <li>
-            <Link to="/pontos-de-coleta">Pontos de Coleta</Link>
+            <Link to="/collection-points">Pontos de Coleta</Link>
           </li>
           <li>
             <Link to="/projetos" state={{ currentUserId: currentUserId }}>

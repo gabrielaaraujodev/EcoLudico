@@ -6,108 +6,101 @@
 
   width: 100vw;
   height: 100vh;
-
-  background-image: url("../images/backgrounLogin.svg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-}
-
-.logoContainer {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.logo {
-  width: 50px;
-  height: auto;
-  margin-right: 10px;
-}
-
-.titulo {
-  font-size: 1.5em;
-  color: #2e7d32;
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
 }
 
 .formContainer {
-  margin: 0 auto;
-  background-color: #f6fbf9;
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #ffffffcc; /* branco com leve transparência */
+  padding: 32px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   width: 400px;
   max-width: 90%;
+  transition: all 0.3s ease-in-out;
 }
 
 .formContainer h2 {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   color: #2e7d32;
-}
-
-.errorMessage {
-  color: red;
-  margin-bottom: 10px;
-  text-align: center;
+  font-weight: 600;
+  font-size: 1.4rem;
 }
 
 .inputGroup {
   display: flex;
   flex-direction: column;
-  margin-bottom: 15px;
+  margin-bottom: 16px;
 }
 
 .inputGroup label {
-  margin-bottom: 5px;
-  font-weight: bold;
-  color: #333;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #444;
 }
 
 .inputGroup input {
-  padding: 10px;
+  padding: 10px 14px;
   border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 1em;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.inputGroup input:focus {
+  outline: none;
+  border-color: #81c784;
+  box-shadow: 0 0 0 3px rgba(129, 199, 132, 0.3);
 }
 
 .loginButton {
-  background-color: #e3f2e1;
-  color: #71bc68;
+  background-color: #66bb6a;
+  color: #fff;
   padding: 12px 20px;
-  margin: 0 auto;
   border: none;
-  border-radius: 25px;
+  border-radius: 30px;
   cursor: pointer;
-  font-size: 22px;
-  font-weight: bold;
-  width: 60%;
+  font-size: 1rem;
+  font-weight: 600;
+  width: 100%;
+  transition: background-color 0.3s ease-in-out;
 }
 
 .loginButton:hover {
-  background-color: #1b5e20;
+  background-color: #388e3c;
+}
+
+.linkButton {
+  background-color: #a5d6a7;
+  color: #1b5e20;
+  padding: 10px 18px;
+  border-radius: 20px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .cadastroLink {
   text-align: center;
   margin-top: 15px;
-  color: #555;
 }
 
 .linkButton {
-  background: none;
-  border: none;
-  color: #0d47a1;
-  cursor: pointer;
-  text-decoration: underline;
-  font-size: 1em;
+  margin-left: 10px;
+}
+
+.linkButton a {
+  background-color: #a5d6a7;
+  color: #1b5e20;
+  padding: 8px 16px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin-left: 5px;
 }
 
 .linkButton:hover {
-  color: #002171;
+  background-color: #388e3c;
+  color: white;
 }

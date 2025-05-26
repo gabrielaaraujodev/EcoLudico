@@ -6,7 +6,7 @@ import styles from "../styles/RewardsSection.module.css";
 
 function RewardsSection() {
   return (
-    <section>
+    <section id="rewardsSection">
       <div className={styles.container}>
         <div className={styles.title}>
           <h1>

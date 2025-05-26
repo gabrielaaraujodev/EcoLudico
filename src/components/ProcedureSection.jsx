@@ -9,7 +9,7 @@ import styles from "../styles/ProcedureSection.module.css";
 
 function ProcedureSection() {
   return (
-    <section className={styles.section}>
+    <section className={styles.section} id="procedureSection">
       <div className={styles.container}>
         <h1 className={styles.title}>Como o processo funciona ?</h1>
 

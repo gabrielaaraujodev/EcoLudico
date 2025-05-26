@@ -21,6 +21,15 @@ function Header() {
     setMenuOpen(!menuOpen);
   };
 
+  const handleClick = (e, id) => {
+    e.preventDefault();
+
+    const section = document.getElementById(id);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <header>
       <nav className={styles.nav}>
@@ -32,9 +41,22 @@ function Header() {
         <FiMenu className={styles.menuIcon} onClick={toggleMenu} />
 
         <ul className={`${styles.links} ${menuOpen ? styles.linksOpen : ""}`}>
-          <li>Home</li>
-          <li>Sobre Nós</li>
-          <li>Contato</li>
+          <li>
+            <a href="/">Home</a>
+          </li>
+          <li>
+            <a
+              href="/#servicesSection"
+              onClick={(e) => handleClick(e, "servicesSection")}
+            >
+              Sobre Nós
+            </a>
+          </li>
+          <li>
+            <a href="/#footer" onClick={(e) => handleClick(e, "footer")}>
+              Contato
+            </a>
+          </li>
           <li className={styles.buttonsContainer}>
             {" "}
             <button className={styles.btnSignIn} onClick={goToSignIn}>
