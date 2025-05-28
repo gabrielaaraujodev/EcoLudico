@@ -7,6 +7,7 @@ const InputText = ({
   onChange,
   type = "text",
   required,
+  readOnly,
 }) => (
   <div className={styles.inputGroup}>
     <label htmlFor={name}>{label}</label>
@@ -16,6 +17,7 @@ const InputText = ({
       name={name}
       value={value}
       onChange={onChange}
+      readOnly={readOnly}
       required={required}
     />
   </div>

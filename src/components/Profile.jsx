@@ -1,5 +1,7 @@
 import React from "react";
+
 import { useNavigate, useLocation } from "react-router-dom";
+
 import styles from "../styles/Profile.module.css";
 
 import Slider from "react-slick";
@@ -10,10 +12,30 @@ function Profile({ isLoggedIn }) {
   const [user, setUser] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
+
   const userIdFromNavigation = location.state?.currentUserId;
+
+  const [loggedInUserId, setLoggedInUserId] = React.useState(null);
+
+  React.useEffect(() => {
+    const storedUserId = sessionStorage.getItem("userId");
+    if (storedUserId) {
+      setLoggedInUserId(storedUserId);
+    } else {
+      if (!isLoggedIn) {
+        navigate("/signin");
+      }
+    }
+  }, [isLoggedIn, navigate]);
+
   const [isEditSchoolModalOpen, setIsEditSchoolModalOpen] =
     React.useState(false);
   const [editingSchool, setEditingSchool] = React.useState(null);
+
+  const [isEditProfileModalOpen, setIsEditProfileModalOpen] =
+    React.useState(false);
+  const [editingUser, setEditingUser] = React.useState(null);
+  const [editProfileError, setEditProfileError] = React.useState(null);
 
   const [isPostProjectModalOpen, setIsPostProjectModalOpen] =
     React.useState(false);
@@ -37,9 +59,8 @@ function Profile({ isLoggedIn }) {
   const [projectsLoading, setProjectsLoading] = React.useState(true);
   const [projectsError, setProjectsError] = React.useState(null);
 
-  const [selectedFile, setSelectedFile] = React.useState(null);
   const [previewImage, setPreviewImage] = React.useState(null);
-  const [uploadingImage, setUploadingImage] = React.useState(null);
+  const [uploadingImage, setUploadingImage] = React.useState(false);
   const [uploadError, setUploadError] = React.useState(null);
 
   React.useEffect(() => {
@@ -87,6 +108,9 @@ function Profile({ isLoggedIn }) {
     fetchUserData();
   }, [isLoggedIn, navigate, userIdFromNavigation]);
 
+  const isOwner =
+    user && loggedInUserId && String(user.userId) === String(loggedInUserId);
+
   React.useEffect(() => {
     const fetchProjects = async () => {
       if (user?.userId && user?.type === 1 && user?.schoolId) {
@@ -115,14 +139,13 @@ function Profile({ isLoggedIn }) {
     fetchProjects();
   }, [user]);
 
-  const handleFileChange = (event) => {
+  const handleFileChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
-      setSelectedFile(file);
       setPreviewImage(URL.createObjectURL(file));
       setUploadError(null);
+      await handleUploadProfilePicture(file);
     } else {
-      setSelectedFile(null);
       if (user?.profilePicture) {
         setPreviewImage(`https://localhost:7253${user.profilePicture}`);
       } else {
@@ -144,14 +167,15 @@ function Profile({ isLoggedIn }) {
     }
   };
 
-  const handleUploadProfilePicture = async () => {
-    if (!selectedFile) {
-      setUploadError("Por favor, selecione um arquivo de imagem.");
+  const handleUploadProfilePicture = async (fileToUpload) => {
+    if (!fileToUpload) {
+      setUploadError("Nenhum arquivo para upload foi fornecido.");
       return;
     }
 
     if (!user?.userId) {
       setUploadError("ID do usuário não disponível para upload.");
+      setUploadingImage(false);
       return;
     }
 
@@ -159,7 +183,7 @@ function Profile({ isLoggedIn }) {
     setUploadError(null);
 
     const formData = new FormData();
-    formData.append("File", selectedFile);
+    formData.append("File", fileToUpload);
 
     try {
       const response = await fetch(
@@ -180,11 +204,12 @@ function Profile({ isLoggedIn }) {
       }
 
       const data = await response.json();
+
       setUser((prevUser) => ({
         ...prevUser,
         profilePicture: data.profilePictureUrl,
       }));
-      setSelectedFile(null);
+      setPreviewImage(`https://localhost:7253${data.profilePictureUrl}`);
     } catch (err) {
       setUploadError(err.message);
     } finally {
@@ -192,8 +217,109 @@ function Profile({ isLoggedIn }) {
     }
   };
 
+  const openEditProfileModal = () => {
+    if (user) {
+      setEditingUser({
+        name: user.name,
+        address: user.address ? { ...user.address } : {},
+      });
+      setIsEditProfileModalOpen(true);
+      setEditProfileError(null);
+    } else {
+      setError("Dados do usuário não disponíveis para edição.");
+    }
+  };
+
+  const closeEditProfileModal = () => {
+    setIsEditProfileModalOpen(false);
+    setEditingUser(null);
+    setEditProfileError(null);
+  };
+
+  const handleEditProfileChange = (event) => {
+    const { name, value } = event.target;
+    if (name.startsWith("address.")) {
+      const addressFieldName = name.substring(8);
+      setEditingUser((prevState) => ({
+        ...prevState,
+        address: {
+          ...prevState.address,
+          [addressFieldName]: value,
+        },
+      }));
+    } else {
+      setEditingUser((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    }
+  };
+
+  const handleUpdateProfile = async () => {
+    if (!editingUser || !user?.userId) {
+      setEditProfileError("Dados insuficientes para atualizar o perfil.");
+      return;
+    }
+
+    setEditProfileError(null);
+
+    const userUpdateDTO = {
+      name: editingUser.name,
+      address: {
+        street: editingUser.address?.street || "",
+        number: editingUser.address?.number || "",
+        complement: editingUser.address?.complement || "",
+        city: editingUser.address?.city || "",
+        state: editingUser.address?.state || "",
+      },
+    };
+
+    try {
+      const response = await fetch(
+        `https://localhost:7253/api/User/${user.userId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userUpdateDTO),
+        }
+      );
+
+      if (response.ok) {
+        setUser((prevUser) => ({
+          ...prevUser,
+          name: editingUser.name,
+          address: editingUser.address,
+        }));
+        closeEditProfileModal();
+      } else if (response.status === 404) {
+        setEditProfileError("Usuário não encontrado.");
+      } else {
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          const errorData = await response.json();
+          setEditProfileError(
+            `Erro ao atualizar perfil: ${response.statusText} - ${
+              errorData?.message || errorData?.error || "Erro desconhecido"
+            }`
+          );
+        } else {
+          const errorText = await response.text();
+          setEditProfileError(
+            `Erro ao atualizar perfil: ${response.statusText} - ${
+              errorText || "Erro desconhecido (resposta não é JSON)"
+            }`
+          );
+        }
+      }
+    } catch (err) {
+      setEditProfileError(`Erro ao comunicar com o servidor: ${err.message}`);
+    }
+  };
+
   const handleEditProfileClick = () => {
-    navigate("/edit-profile");
+    openEditProfileModal();
   };
 
   const openEditSchoolModal = () => {
@@ -333,15 +459,12 @@ function Profile({ isLoggedIn }) {
     formData.append("AgeRange", newProject.ageRange.toString());
     formData.append("MaterialsList", newProject.materialsList);
 
-    for (let pair of formData.entries()) {
-      console.log(`${pair[0]}:`, pair[1]);
-    }
-
     try {
       const response = await fetch(
         `https://localhost:7253/api/Project/upload-project-picture?userId=${userIdFromNavigation}`,
         {
           method: "POST",
+
           body: formData,
         }
       );
@@ -375,7 +498,7 @@ function Profile({ isLoggedIn }) {
               }`
             );
           } catch (error) {
-            const errorText = await error.text();
+            const errorText = await error;
             setError(
               `Erro ao criar projeto: ${response.statusText} - Não foi possível analisar a resposta de erro como JSON. Resposta bruta: ${errorText}`
             );
@@ -429,7 +552,12 @@ function Profile({ isLoggedIn }) {
     return <div>Carregando dados do usuário...</div>;
   }
 
-  if (error && !isEditSchoolModalOpen && !isPostProjectModalOpen) {
+  if (
+    error &&
+    !isEditSchoolModalOpen &&
+    !isPostProjectModalOpen &&
+    !isEditProfileModalOpen
+  ) {
     return <div>Erro ao carregar dados do usuário: {error}</div>;
   }
 
@@ -453,28 +581,29 @@ function Profile({ isLoggedIn }) {
               <span>Sem Foto</span>
             </div>
           )}
-          <input
-            type="file"
-            id="profilePictureInput"
-            name="profilePicture"
-            accept="image/*"
-            onChange={handleFileChange}
-            className={styles.fileInputProfileImage}
-          />
-          <label htmlFor="profilePictureInput" className={styles.uploadButton}>
-            Trocar Foto
-          </label>
-          {selectedFile && (
-            <button
-              className={styles.uploadNowButton}
-              onClick={handleUploadProfilePicture}
-              disabled={uploadingImage}
-            >
-              {uploadingImage ? "Enviando..." : "Enviar Foto"}
-            </button>
-          )}
-          {uploadError && (
-            <p className={styles.uploadErrorMessage}>{uploadError}</p>
+          {isOwner && (
+            <>
+              <input
+                type="file"
+                id="profilePictureInput"
+                name="profilePicture"
+                accept="image/*"
+                onChange={handleFileChange}
+                className={styles.fileInputProfileImage}
+                disabled={uploadingImage}
+              />
+              <label
+                htmlFor="profilePictureInput"
+                className={styles.uploadButton}
+                style={{ pointerEvents: uploadingImage ? "none" : "auto" }}
+              >
+                {uploadingImage ? "Enviando..." : "Trocar Foto"}
+              </label>
+
+              {uploadError && (
+                <p className={styles.uploadErrorMessage}>{uploadError}</p>
+              )}
+            </>
           )}
         </div>
         <div className={styles.profileInfo}>
@@ -489,12 +618,14 @@ function Profile({ isLoggedIn }) {
             </p>
           )}
         </div>
-        <button
-          className={styles.editProfileButton}
-          onClick={handleEditProfileClick}
-        >
-          Editar Perfil
-        </button>
+        {isOwner && (
+          <button
+            className={styles.editProfileButton}
+            onClick={handleEditProfileClick}
+          >
+            Editar Perfil
+          </button>
+        )}
       </div>
 
       {user.address && (
@@ -504,7 +635,7 @@ function Profile({ isLoggedIn }) {
             {user.address.street}, {user.address.number} -{" "}
             {user.address.complement}
             <br />
-            {user.address.city} - {user.address.state}, {user.address.cep}
+            {user.address.city} - {user.address.state}
           </p>
         </div>
       )}
@@ -512,7 +643,7 @@ function Profile({ isLoggedIn }) {
       <div className={styles.schoolSection}>
         <div className={styles.schoolHeader}>
           <h3>Minha Escola</h3>
-          {user.type === 1 && (
+          {isOwner && user.type === 1 && (
             <button
               className={styles.editSchoolButton}
               onClick={openEditSchoolModal}
@@ -536,7 +667,7 @@ function Profile({ isLoggedIn }) {
             )}
           </div>
         )}
-        {!user.school && user.type === 1 && (
+        {isOwner && !user.school && user.type === 1 && (
           <p>
             Nenhuma escola cadastrada. Clique em "Editar Escola" para cadastrar.
           </p>
@@ -545,7 +676,7 @@ function Profile({ isLoggedIn }) {
 
       <div className={styles.projectsSection}>
         <h3>Meus Projetos da Escola</h3>
-        {user?.type === 1 && (
+        {isOwner && user?.type === 1 && (
           <button
             className={styles.postProjectButton}
             onClick={openPostProjectModal}
@@ -568,11 +699,11 @@ function Profile({ isLoggedIn }) {
                   {" "}
                   <div
                     className={styles.carouselItem}
-                    onClick={() =>
+                    onClick={() => {
                       navigate(`/project/${project.projectId}`, {
-                        state: { currentUserId: user.userId },
-                      })
-                    }
+                        state: { currentUserId: loggedInUserId },
+                      });
+                    }}
                     style={{ cursor: "pointer" }}
                   >
                     {project.imageUrls && project.imageUrls.length > 0 && (
@@ -792,6 +923,87 @@ function Profile({ isLoggedIn }) {
                 <button
                   className={styles.modalButton}
                   onClick={closePostProjectModal}
+                >
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {isEditProfileModalOpen && editingUser && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modal}>
+            <h3>Editar Perfil</h3>
+            {editProfileError && (
+              <p className={styles.errorMessage}>{editProfileError}</p>
+            )}
+            <div className={styles.modalForm}>
+              <label htmlFor="profileName">Nome:</label>
+              <input
+                type="text"
+                id="profileName"
+                name="name"
+                value={editingUser.name || ""}
+                onChange={handleEditProfileChange}
+                required
+              />
+
+              <label htmlFor="address.street">Rua:</label>
+              <input
+                type="text"
+                id="address.street"
+                name="address.street"
+                value={editingUser.address?.street || ""}
+                onChange={handleEditProfileChange}
+                readOnly
+              />
+              <label htmlFor="address.number">Número:</label>
+              <input
+                type="text"
+                id="address.number"
+                name="address.number"
+                value={editingUser.address?.number || ""}
+                onChange={handleEditProfileChange}
+              />
+              <label htmlFor="address.complement">Complemento:</label>
+              <input
+                type="text"
+                id="address.complement"
+                name="address.complement"
+                value={editingUser.address?.complement || ""}
+                onChange={handleEditProfileChange}
+              />
+              <label htmlFor="address.city">Cidade:</label>
+              <input
+                type="text"
+                id="address.city"
+                name="address.city"
+                value={editingUser.address?.city || ""}
+                onChange={handleEditProfileChange}
+                readOnly
+              />
+              <label htmlFor="address.state">Estado:</label>
+              <input
+                type="text"
+                id="address.state"
+                name="address.state"
+                value={editingUser.address?.state || ""}
+                onChange={handleEditProfileChange}
+                readOnly
+              />
+
+              <div className={styles.modalButtonContainer}>
+                <button
+                  className={styles.modalButton}
+                  onClick={handleUpdateProfile}
+                >
+                  Salvar
+                </button>
+                <button
+                  className={styles.modalButton}
+                  onClick={closeEditProfileModal}
                 >
                   Cancelar
                 </button>

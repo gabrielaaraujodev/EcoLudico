@@ -1,9 +1,10 @@
 import React from "react";
+
 import { useNavigate } from "react-router-dom";
+
 import styles from "../styles/ProjectsPage.module.css";
 
 function ProjectsPage({ currentUserId }) {
-  console.log("ProjectsPage - currentUserId recebido:", currentUserId);
   const [projects, setProjects] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
@@ -80,7 +81,12 @@ function ProjectsPage({ currentUserId }) {
         }
 
         const data = await response.json();
-        setProjects(data);
+
+        const filteredProjects = data.filter(
+          (project) => project.userId !== currentUserId
+        );
+
+        setProjects(filteredProjects);
       } catch (err) {
         console.error("Erro ao buscar projetos:", err);
         setError(err.message);
@@ -88,7 +94,7 @@ function ProjectsPage({ currentUserId }) {
         setLoading(false);
       }
     },
-    [API_BASE_URL]
+    [API_BASE_URL, currentUserId]
   );
 
   React.useEffect(() => {

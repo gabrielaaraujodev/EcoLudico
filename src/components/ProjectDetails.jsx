@@ -1,9 +1,12 @@
 import React from "react";
 import { useParams, useLocation, useNavigate, Link } from "react-router-dom";
+
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+
 import styles from "../styles/ProjectDetails.module.css";
+
 import CommentItem from "../components/CommentItem";
 import CommentForm from "../components/CommentForm";
 import ProjectFormModal from "../components/ProjectFormModal";
@@ -94,8 +97,6 @@ function ProjectDetails() {
       checkFavoriteStatus();
     }
   }, [project, currentUserId, checkFavoriteStatus]);
-
-  const isProjectOwner = project && project.schoolOwnerUserId === currentUserId;
 
   const handleToggleFavorite = async () => {
     if (!currentUserId) {
@@ -374,6 +375,9 @@ function ProjectDetails() {
     }
   };
 
+  const isProjectOwner =
+    project && Number(project.schoolOwnerUserId) === Number(currentUserId);
+
   if (projectDeleted) {
     return (
       <div className={styles.loadingMessage}>
@@ -480,7 +484,7 @@ function ProjectDetails() {
       </div>
 
       <div className={styles.projectActions}>
-        {currentUserId && (
+        {currentUserId && !isProjectOwner && (
           <button
             onClick={handleToggleFavorite}
             className={`${styles.favoriteButton} ${

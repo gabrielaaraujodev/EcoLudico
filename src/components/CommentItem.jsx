@@ -7,10 +7,13 @@ function CommentItem({
   onEdit,
   onDelete,
 }) {
-  const canEditThisComment = currentUserId && comment.userId === currentUserId;
+  const loggedInUserIdNum = Number(currentUserId);
+  const commentAuthorIdNum = Number(comment.userId);
+
+  const canEditThisComment = loggedInUserIdNum === commentAuthorIdNum;
 
   const canDeleteThisComment =
-    currentUserId && (comment.userId === currentUserId || isProjectOwner);
+    loggedInUserIdNum === commentAuthorIdNum || isProjectOwner;
 
   return (
     <div className={styles.commentItem}>
@@ -21,7 +24,6 @@ function CommentItem({
         </span>
       </p>
       <p className={styles.commentContent}>{comment.content}</p>
-
       {currentUserId && (
         <div className={styles.commentActions}>
           {canEditThisComment && (

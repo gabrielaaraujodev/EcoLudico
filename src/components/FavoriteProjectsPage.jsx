@@ -1,5 +1,7 @@
 import React from "react";
+
 import { useLocation, Link } from "react-router-dom";
+
 import styles from "../styles/FavoriteProjectsPage.module.css";
 
 function FavoriteProjectsPage() {
@@ -7,6 +9,7 @@ function FavoriteProjectsPage() {
   const currentUserId = location.state?.currentUserId;
 
   const [favoriteProjects, setFavoriteProjects] = React.useState([]);
+
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
 
@@ -23,6 +26,7 @@ function FavoriteProjectsPage() {
 
     setLoading(true);
     setError(null);
+
     try {
       const response = await fetch(
         `${API_BASE_URL}/api/User/${currentUserId}/favorite-projects`

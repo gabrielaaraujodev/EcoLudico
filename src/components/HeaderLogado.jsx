@@ -1,6 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
+
 import styles from "../styles/HeaderLogado.module.css";
-import logo from "../images/logo.svg";
+
+import logo from "../images/newLogoDesign.svg";
 
 function HeaderLogado({ onLogout, currentUserId }) {
   const navigate = useNavigate();

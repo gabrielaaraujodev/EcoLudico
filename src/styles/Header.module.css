@@ -18,6 +18,11 @@
   gap: 0.5rem;
 }
 
+.logoTitulo img {
+  width: 40px;
+  height: 40px;
+}
+
 .titulo {
   font-size: 20px;
   font-weight: bold;

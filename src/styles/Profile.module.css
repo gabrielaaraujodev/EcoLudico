@@ -1,48 +1,5 @@
-/* --- ESTILOS GLOBAIS (ASSUMIMOS QUE ESTÃO EM UM ARQUIVO GLOBAL.CSS OU NO TOPO DESTE) --- */
-/* Estes estilos devem ser os mesmos em todo o seu projeto para consistência */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: "Roboto", sans-serif; /* Fonte principal para o corpo do texto */
-  line-height: 1.6;
-  color: #333; /* Cor padrão do texto */
-  background-color: #f8f8f8; /* Fundo geral mais claro */
-  -webkit-font-smoothing: antialiased;
-  display: flex; /* Para empurrar o footer para baixo, se houver */
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: "Lato", sans-serif; /* Fonte para títulos */
-  color: #333;
-  margin-bottom: 0.8em;
-  line-height: 1.2;
-}
-
-a {
-  color: #3498db; /* Azul para links */
-  text-decoration: none;
-  transition: all 0.3s ease;
-}
-
-a:hover {
-  text-decoration: underline;
-  opacity: 0.8;
-}
-
-/* --- Navbar (Menu Superior) --- */
 .navbar {
-  background-color: #2e7d32; /* Seu verde principal */
+  background-color: #2e7d32;
   color: white;
   padding: 15px 20px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -76,7 +33,7 @@ a:hover {
   color: white;
   padding: 5px 0;
   position: relative;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); /* Sombra sutil para texto claro */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .navbar .nav-links a::after {
@@ -84,7 +41,7 @@ a:hover {
   position: absolute;
   width: 0;
   height: 2px;
-  background: #3498db; /* Linha azul de destaque no hover */
+  background: #3498db;
   bottom: -5px;
   left: 0;
   transition: width 0.3s ease;
@@ -95,7 +52,7 @@ a:hover {
 }
 
 .navbar .auth-buttons button {
-  background-color: #3498db; /* Azul para botões de ação */
+  background-color: #3498db;
   color: white;
   padding: 8px 15px;
   border: none;
@@ -111,30 +68,25 @@ a:hover {
   background-color: #2980b9;
 }
 
-/* --- FIM ESTILOS GLOBAIS --- */
-
-/* --- ESTILOS ESPECÍFICOS DA PÁGINA DE PERFIL --- */
 .profileContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 30px 20px; /* Mais padding superior/inferior */
-  background-color: #f8f8f8; /* Fundo mais claro */
-  flex-grow: 1; /* Garante que o container preencha o espaço restante */
+  padding: 30px 20px;
+  flex-grow: 1;
 }
 
-/* --- Cards Gerais (para Perfil, Endereço, Escola, Projetos) --- */
-.profileHeader, /* o header do perfil é um tipo de card */
+.profileHeader,
 .sectionCard,
 .schoolSection,
 .projectsSection {
   background-color: white;
-  border-radius: 10px; /* Cantos um pouco mais arredondados */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Sombra mais suave e moderna */
-  padding: 25px; /* Mais padding para respiro */
-  margin-bottom: 25px; /* Mais espaço entre os cards */
-  width: 100%; /* Ocupa a largura total do .profileContainer */
-  max-width: 900px; /* Largura máxima para centralizar e não ficar muito largo */
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 25px;
+  margin-bottom: 25px;
+  width: 100%;
+  max-width: 900px;
   transition: transform 0.2s ease-in-out;
 }
 
@@ -142,15 +94,14 @@ a:hover {
 .sectionCard:hover,
 .schoolSection:hover,
 .projectsSection:hover {
-  transform: translateY(-3px); /* Efeito de elevação sutil no hover */
+  transform: translateY(-3px);
 }
 
-/* --- Cabeçalho do Perfil (dentro do .profileHeader) --- */
 .profileHeader {
   display: flex;
   align-items: center;
-  gap: 25px; /* Mais espaço entre a imagem e as informações */
-  flex-wrap: wrap; /* Para responsividade */
+  gap: 25px;
+  flex-wrap: wrap;
 }
 
 .profileImageUploadWrapper {
@@ -158,20 +109,20 @@ a:hover {
   flex-direction: column;
   align-items: center;
   flex-shrink: 0;
-  position: relative; /* Para posicionar o botão de upload */
+  position: relative;
 }
 
 .profileImageContainer {
   position: relative;
-  width: 120px; /* Tamanho um pouco maior */
+  width: 120px;
   height: 120px;
   border-radius: 50%;
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 3px solid #2e7d32; /* Borda verde, combinando com o tema */
-  box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.2); /* Sombra suave do verde */
+  border: 3px solid #2e7d32;
+  box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.2);
   flex-shrink: 0;
 }
 
@@ -179,7 +130,7 @@ a:hover {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background-color: #eee; /* Cor de fundo mais clara */
+  background-color: #eee;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -187,7 +138,7 @@ a:hover {
   font-size: 0.9em;
   text-align: center;
   line-height: 1.3;
-  padding: 5px; /* Para o texto não grudar nas bordas */
+  padding: 5px;
 }
 
 .profileImage {
@@ -205,16 +156,16 @@ a:hover {
   bottom: 0;
   left: 0;
   width: 100%;
-  padding: 8px 0; /* Mais padding */
-  background-color: rgba(0, 0, 0, 0.7); /* Mais escuro para contraste */
+  padding: 8px 0;
+  background-color: rgba(0, 0, 0, 0.7);
   color: white;
   text-align: center;
   cursor: pointer;
-  font-size: 0.85em; /* Levemente maior */
+  font-size: 0.85em;
   opacity: 0;
   transition: opacity 0.3s ease;
   z-index: 1;
-  border-bottom-left-radius: 120px; /* Arredondado para acompanhar a imagem */
+  border-bottom-left-radius: 120px;
   border-bottom-right-radius: 120px;
 }
 
@@ -223,13 +174,13 @@ a:hover {
 }
 
 .uploadNowButton {
-  display: none; /* Mantenha conforme seu JS controla a exibição */
+  display: none;
 }
 
 .uploadErrorMessage {
-  color: #e74c3c; /* Vermelho de erro */
+  color: #e74c3c;
   font-size: 0.85em;
-  margin-top: 8px; /* Mais espaço */
+  margin-top: 8px;
   text-align: center;
   width: 100%;
 }
@@ -240,30 +191,30 @@ a:hover {
 
 .userName {
   margin-top: 0;
-  color: #2e7d32; /* Verde para o nome de destaque */
-  font-size: 1.8em; /* Um pouco maior */
-  font-weight: 700; /* Mais bold */
+  color: #2e7d32;
+  font-size: 1.8em;
+  font-weight: 700;
   margin-bottom: 5px;
 }
 
 .userEmail,
 .userType,
 .userDateBirth {
-  color: #555; /* Cinza um pouco mais escuro para melhor legibilidade */
-  font-size: 1em; /* Tamanho normal do texto */
-  margin-bottom: 5px; /* Espaço entre as linhas */
+  color: #555;
+  font-size: 1em;
+  margin-bottom: 5px;
 }
 
 .editProfileButton {
-  background-color: #3498db; /* Azul para "Editar Perfil" */
+  background-color: #2e7d32;
   color: white;
   border: none;
-  padding: 10px 20px; /* Mais padding */
+  padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
   font-size: 0.95em;
   transition: all 0.3s ease;
-  align-self: flex-start; /* Alinha o botão ao topo da seção de info */
+  align-self: flex-start;
 }
 
 .editProfileButton:hover {
@@ -271,17 +222,16 @@ a:hover {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* --- Seções de Informação (Endereço, Escola, Projetos) --- */
 .sectionCard h3,
 .schoolSection h3,
 .projectsSection h3 {
   margin-top: 0;
   color: #333;
   margin-bottom: 15px;
-  font-size: 1.4em; /* Títulos de seção um pouco maiores */
+  font-size: 1.4em;
   font-weight: 600;
   padding-bottom: 5px;
-  border-bottom: 1px solid #eee; /* Linha divisória suave */
+  border-bottom: 1px solid #eee;
 }
 
 .schoolHeader {
@@ -289,14 +239,14 @@ a:hover {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
-  flex-wrap: wrap; /* Para responsividade */
+  flex-wrap: wrap;
 }
 
 .editSchoolButton {
-  background-color: #2e7d32; /* Verde para "Editar Escola" */
+  background-color: #2e7d32;
   color: white;
   border: none;
-  padding: 10px 20px; /* Mais padding */
+  padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
   font-size: 0.95em;
@@ -304,8 +254,9 @@ a:hover {
 }
 
 .editSchoolButton:hover {
-  background-color: #246a2a;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #2980b9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
 }
 
 .schoolInfo p {
@@ -315,21 +266,21 @@ a:hover {
 }
 
 .projectsSection {
-  display: block; /* Garante que a seção seja um bloco */
-  text-align: center; /* Centraliza o botão e texto "Nenhum projeto" */
+  display: block;
+  text-align: center;
 }
 
 .postProjectButton {
-  background-color: #3498db; /* Azul para "Postar Novo Projeto" */
+  background-color: #2e7d32;
   color: white;
   border: none;
-  padding: 12px 25px; /* Mais padding para destaque */
-  border-radius: 8px; /* Cantos mais arredondados */
+  padding: 12px 25px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 1em;
   font-weight: bold;
   transition: all 0.3s ease;
-  margin-bottom: 20px; /* Mais espaço abaixo do botão */
+  margin-bottom: 20px;
 }
 
 .postProjectButton:hover {
@@ -338,49 +289,48 @@ a:hover {
   transform: translateY(-2px);
 }
 
-/* --- Slick Carousel Styling (Ajustes para um visual mais clean) --- */
 .slickCarouselContainer {
   margin: 20px 0;
-  padding: 0 40px; /* Aumentar padding para as setas não ficarem muito na borda */
+  padding: 0 40px;
   overflow: hidden;
 }
 
 .carouselItem {
-  background-color: #fdfdfd; /* Fundo do item mais claro */
-  border: 1px solid #eee; /* Borda mais suave */
+  background-color: #fdfdfd;
+  border: 1px solid #eee;
   border-radius: 8px;
-  padding: 20px; /* Mais padding */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Sombra mais sutil */
-  text-align: left; /* Alinhar texto à esquerda para descrição */
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  text-align: left;
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* Alinhar itens ao início */
-  min-width: 280px; /* Largura mínima um pouco maior */
-  height: auto; /* Deixa a altura se ajustar ao conteúdo */
+  align-items: flex-start;
+  min-width: 280px;
+  height: auto;
   box-sizing: border-box;
 }
 
 :global(.slick-slide) {
-  padding: 0 10px; /* Espaço entre os slides */
+  padding: 0 10px;
   box-sizing: border-box;
 }
 
 :global(.slick-list) {
-  margin: 0 -10px; /* Compensa o padding do slide */
+  margin: 0 -10px;
 }
 
 .projectImage {
   width: 100%;
-  height: 180px; /* Altura um pouco maior para a imagem */
+  height: 180px;
   border-radius: 6px;
-  margin-bottom: 15px; /* Mais espaço */
+  margin-bottom: 15px;
   object-fit: cover;
 }
 
 .projectName {
   font-size: 1.2em;
   margin-bottom: 8px;
-  color: #2e7d32; /* Nome do projeto em verde */
+  color: #2e7d32;
   font-weight: 600;
 }
 
@@ -391,13 +341,12 @@ a:hover {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 4; /* Mostrar mais linhas da descrição */
+  -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   line-clamp: 4;
-  margin-bottom: 10px; /* Espaço antes de botões/links do projeto */
+  margin-bottom: 10px;
 }
 
-/* --- Slick Carousel Navigation (Setas e Pontos) --- */
 :global(.slick-prev),
 :global(.slick-next) {
   font-size: 0;
@@ -410,14 +359,9 @@ a:hover {
   color: transparent;
   border: none;
   outline: none;
-  background-color: rgba(
-    46,
-    125,
-    50,
-    0.8
-  ); /* Fundo verde escuro para as setas */
+  background-color: rgba(46, 125, 50, 0.8);
   border-radius: 50%;
-  width: 45px; /* Tamanho um pouco maior */
+  width: 45px;
   height: 45px;
   display: flex;
   align-items: center;
@@ -429,14 +373,14 @@ a:hover {
 
 :global(.slick-prev):hover,
 :global(.slick-next):hover {
-  background-color: rgba(46, 125, 50, 1); /* Verde mais sólido no hover */
-  transform: translateY(-50%) scale(1.05); /* Efeito de scale */
+  background-color: rgba(46, 125, 50, 1);
+  transform: translateY(-50%) scale(1.05);
 }
 
 :global(.slick-prev)::before,
 :global(.slick-next)::before {
-  font-family: "slick"; /* Garanta que a fonte 'slick' esteja carregada ou use ícones SVG/Font Awesome */
-  font-size: 24px; /* Setas maiores */
+  font-family: "slick";
+  font-size: 24px;
   line-height: 1;
   color: white;
   -webkit-font-smoothing: antialiased;
@@ -452,15 +396,15 @@ a:hover {
 }
 
 :global(.slick-prev) {
-  left: 5px; /* Mais afastado da borda */
+  left: 5px;
 }
 
 :global(.slick-next) {
-  right: 5px; /* Mais afastado da borda */
+  right: 5px;
 }
 
 :global(.slick-dots) {
-  bottom: -35px; /* Posicionamento ajustado */
+  bottom: -35px;
   padding: 0;
   margin: 0;
   list-style: none;
@@ -471,7 +415,7 @@ a:hover {
 :global(.slick-dots li) {
   position: relative;
   display: inline-block;
-  width: 18px; /* Tamanho do ponto */
+  width: 18px;
   height: 18px;
   margin: 0 4px;
   padding: 0;
@@ -494,7 +438,7 @@ a:hover {
 
 :global(.slick-dots li button:before) {
   font-family: "slick";
-  font-size: 12px; /* Tamanho do ponto */
+  font-size: 12px;
   line-height: 18px;
   position: absolute;
   top: 0;
@@ -510,41 +454,40 @@ a:hover {
 }
 
 :global(.slick-dots li.slick-active button:before) {
-  color: #2e7d32; /* Ponto ativo em verde */
+  color: #2e7d32;
   opacity: 1;
 }
 
-/* --- Responsividade da Página de Perfil --- */
 @media (max-width: 768px) {
   .profileHeader {
     flex-direction: column;
-    align-items: center; /* Centraliza itens na coluna */
+    align-items: center;
     text-align: center;
     gap: 20px;
   }
   .profileImageUploadWrapper {
     margin-right: 0;
-    margin-bottom: 0; /* Já centralizado pelo flex do parent */
-    width: auto; /* Ajusta a largura */
+    margin-bottom: 0;
+    width: auto;
   }
   .profileInfo {
-    text-align: center; /* Centraliza texto das informações */
+    text-align: center;
     width: 100%;
   }
   .editProfileButton {
     width: 100%;
-    margin-top: 15px; /* Espaço para o botão */
+    margin-top: 15px;
   }
   .schoolHeader {
     flex-direction: column;
-    align-items: center; /* Centraliza na coluna */
+    align-items: center;
     gap: 15px;
   }
   .editSchoolButton {
     width: 100%;
   }
   .slickCarouselContainer {
-    padding: 0 20px; /* Reduzir padding para as setas */
+    padding: 0 20px;
   }
   :global(.slick-prev),
   :global(.slick-next) {
@@ -557,14 +500,13 @@ a:hover {
   }
 }
 
-/* --- Modal (Estilo mantido e ajustado para a nova paleta/tipografia) --- */
 .modalOverlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.6); /* Fundo mais escuro */
+  background-color: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -573,28 +515,27 @@ a:hover {
 
 .modal {
   background-color: white;
-  border-radius: 10px; /* Cantos arredondados */
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25); /* Sombra mais profunda */
-  padding: 30px; /* Mais padding */
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  padding: 30px;
   width: 90%;
-  max-width: 550px; /* Um pouco mais largo */
+  max-width: 550px;
 }
 
 .modal h3 {
   color: #333;
   margin-top: 0;
-  margin-bottom: 20px; /* Mais espaço */
-  font-size: 1.6em; /* Um pouco maior */
-  font-family: "Lato", sans-serif;
+  margin-bottom: 20px;
+  font-size: 1.6em;
   font-weight: 600;
   text-align: center;
 }
 
 .modalForm label {
   display: block;
-  margin-bottom: 8px; /* Mais espaço */
+  margin-bottom: 8px;
   color: #555;
-  font-size: 0.95em; /* Levemente maior */
+  font-size: 0.95em;
   font-weight: 500;
 }
 
@@ -602,11 +543,11 @@ a:hover {
 .modalForm textarea,
 .modalForm select {
   width: 100%;
-  padding: 12px; /* Mais padding */
-  border-radius: 6px; /* Cantos arredondados */
+  padding: 12px;
+  border-radius: 6px;
   border: 1px solid #ccc;
   font-size: 1em;
-  margin-bottom: 20px; /* Mais espaço */
+  margin-bottom: 20px;
   font-family: "Roboto", sans-serif;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
@@ -615,19 +556,19 @@ a:hover {
 .modalForm textarea:focus,
 .modalForm select:focus {
   outline: none;
-  border-color: #3498db; /* Azul no foco */
+  border-color: #3498db;
   box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
 }
 
 .modalForm .button-group {
   display: flex;
-  justify-content: flex-end; /* Alinha botões à direita */
-  gap: 10px; /* Espaço entre os botões */
+  justify-content: flex-end;
+  gap: 10px;
   margin-top: 20px;
 }
 
 .modalForm button {
-  background-color: #3498db; /* Azul para "Salvar" */
+  background-color: #3498db;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -644,7 +585,7 @@ a:hover {
 }
 
 .modalForm .cancel-button {
-  background-color: #95a5a6; /* Cinza para "Cancelar" */
+  background-color: #95a5a6;
 }
 
 .modalForm .cancel-button:hover {

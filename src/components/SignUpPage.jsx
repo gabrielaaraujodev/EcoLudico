@@ -29,11 +29,29 @@ const personalFieldsConfig = [
 ];
 
 const addressFieldsConfig = [
-  { label: "Rua", name: "addressStreet", type: "text", required: true },
+  {
+    label: "Rua",
+    name: "addressStreet",
+    type: "text",
+    required: true,
+    readOnly: true,
+  },
   { label: "Número", name: "addressNumber", type: "text", required: true },
   { label: "Complemento", name: "addressComplement", type: "text" },
-  { label: "Cidade", name: "addressCity", type: "text", required: true },
-  { label: "Estado", name: "addressState", type: "text", required: true },
+  {
+    label: "Cidade",
+    name: "addressCity",
+    type: "text",
+    required: true,
+    readOnly: true,
+  },
+  {
+    label: "Estado",
+    name: "addressState",
+    type: "text",
+    required: true,
+    readOnly: true,
+  },
 ];
 
 const schoolFieldsConfig = [
@@ -43,6 +61,7 @@ const schoolFieldsConfig = [
     name: "schoolAddressStreet",
     type: "text",
     required: true,
+    readOnly: true,
   },
   {
     label: "Número",
@@ -60,12 +79,14 @@ const schoolFieldsConfig = [
     name: "schoolAddressCity",
     type: "text",
     required: true,
+    readOnly: true,
   },
   {
     label: "Estado",
     name: "schoolAddressState",
     type: "text",
     required: true,
+    readOnly: true,
   },
   { label: "Contato Responsável", name: "schoolContact", type: "text" },
   {
@@ -213,8 +234,8 @@ function SignUpPage({ isLoggedIn }) {
                 schoolAddressStreet: addressParts[0]?.trim() || "",
                 schoolAddressCity: city?.trim() || "",
                 schoolAddressState: state?.trim() || "",
-                latitude: latlng.lat, // Atualiza diretamente no objeto school
-                longitude: latlng.lng, // Atualiza diretamente no objeto school
+                latitude: latlng.lat,
+                longitude: latlng.lng,
               },
             }));
             map.setView(latlng, 16);

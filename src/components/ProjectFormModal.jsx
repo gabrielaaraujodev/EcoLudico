@@ -1,4 +1,5 @@
 import React from "react";
+
 import styles from "../styles/ProjectFormModal.module.css";
 
 function ProjectFormModal({
@@ -61,33 +62,6 @@ function ProjectFormModal({
       let imagesResponse;
 
       if (initialProjectData && initialProjectData.projectId) {
-        // const projectData = {
-        //   projectId: initialProjectData.projectId,
-        //   name,
-        //   description,
-        //   tutorial,
-        //   ageRange: parseInt(ageRange),
-        //   materialsList,
-        // };
-
-        // projectResponse = await fetch(
-        //   `${API_BASE_URL}/api/Project/${initialProjectData.projectId}?userId=${userId}`,
-        //   {
-        //     method: "PUT",
-        //     headers: { "Content-Type": "application/json" },
-        //     body: JSON.stringify(projectData),
-        //   }
-        // );
-
-        // if (!projectResponse.ok) {
-        //   const errorData = await projectResponse.json();
-        //   throw new Error(
-        //     `Erro ao atualizar dados do projeto: ${
-        //       projectResponse.status
-        //     } - ${JSON.stringify(errorData.errors || errorData)}`
-        //   );
-        // }
-
         const imagesFormData = new FormData();
 
         const existingImageUrlsToKeep = images

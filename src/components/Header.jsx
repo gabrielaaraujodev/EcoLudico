@@ -1,7 +1,10 @@
 import React from "react";
+
 import { useNavigate } from "react-router-dom";
-import logo from "../images/logo.svg";
+
 import styles from "../styles/Header.module.css";
+
+import logo from "../images/newLogoDesign.svg";
 import { FiMenu } from "react-icons/fi";
 
 function Header() {

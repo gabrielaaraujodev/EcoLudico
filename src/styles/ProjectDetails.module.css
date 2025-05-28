@@ -3,6 +3,7 @@
   margin: 20px auto;
   max-width: 960px;
   background-color: #f9f9f9;
+  border: 1px solid #386641;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -96,7 +97,7 @@
 }
 
 .favoriteButton {
-  background-color: #007bff;
+  background-color: #2e7d32;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -111,11 +112,7 @@
 }
 
 .favoriteButton.favorited {
-  background-color: #28a745;
-}
-
-.favoriteButton.favorited:hover {
-  background-color: #218838;
+  background-color: #dc3545;
 }
 
 .favoriteButton:disabled {
@@ -216,7 +213,7 @@
 }
 
 .editProjectButton {
-  background-color: #007bff;
+  background-color: #2e7d32;
   color: white;
 }
 
@@ -251,7 +248,7 @@
 }
 
 .addCommentButton {
-  background-color: #007bff;
+  background-color: #2e7d32;
   color: white;
   padding: 10px 20px;
   border: none;
