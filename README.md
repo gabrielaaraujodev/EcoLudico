@@ -15,8 +15,6 @@
 - [Pré-requisitos](#-pré-requisitos)
 - [Instalação](#-instalação)
 - [Como Usar](#-como-usar)
-- [Contribuição](#-contribuição)
-- [Licença](#-licença)
 - [Contato](#-contato)
 
 
